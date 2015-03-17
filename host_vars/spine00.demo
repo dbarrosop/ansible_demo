@@ -1,0 +1,8 @@
+os: eos
+
+id: 0
+
+loopback: 10.0.255.0
+
+management_interface: Management1
+management_ip: 192.168.76.150/24

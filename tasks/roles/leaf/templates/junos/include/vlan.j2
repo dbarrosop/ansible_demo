@@ -1,0 +1,53 @@
+vlans {
+
+{% for vlan, vlan_config in vlans.iteritems() %}
+
+    {{ vlan }} {
+        vlan-id {{ vlan_config.id }};
+        {# The line below is disabled because vSRX don't work well with vlans in routed mode
+        l3-interface vlan.{{ vlan_config.id }};
+        #}
+    }
+
+{% endfor %}
+
+}
+
+    {# As vSRX don't work well with vlans and SVIs in routed mode I am doing the hack of putting
+    the networks in the loopback interfaces so they are announced. These networks should go
+    under the l3-interface of the vlan
+    #}
+interfaces {
+    lo0 {
+        unit 0 {
+            family inet {
+
+{% for vlan, vlan_config in vlans.iteritems() %}
+
+                address {{ vlan_config.network }}.{{ id }}.1/24;
+
+{% endfor %}
+
+            }
+        }
+    }
+
+
+
+{% for vlan, mapping in vlan_mapping.iteritems() %}
+    {% for interface in mapping %}
+
+    {# I know this is not the right configuration for a L2 port. Again, the vSRX doesn't work well with VLANs
+     and I just wanted to prove my point. #}
+    ge-0/0/{{ interface }} {
+        vlan-tagging;
+        unit {{ vlans[vlan].id }} {
+            vlan-id {{ vlans[vlan].id }};
+            family inet;
+        }
+    }
+
+    {% endfor %}
+{% endfor %}
+
+}

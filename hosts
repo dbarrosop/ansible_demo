@@ -1,0 +1,7 @@
+[dc1:children]
+dc1pod1
+[dc1pod1]
+spine00.demo
+spine01.demo
+leaf01.demo
+leaf02.demo

@@ -1,0 +1,4 @@
+---
+- name: "Building configuration from baseconf role"
+  template: src={{os}}/baseconf.j2 dest=../{{baseconfdir.path}}/baseconf.out
+  changed_when: False

@@ -1,0 +1,4 @@
+---
+- name: "Building configuration from leaf role"
+  template: src={{os}}/leaf.j2 dest=../{{baseconfdir.path}}/leaf.out
+  changed_when: False

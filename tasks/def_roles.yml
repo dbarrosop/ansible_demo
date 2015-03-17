@@ -1,0 +1,18 @@
+---
+- name: Configure spines
+  hosts: spine*
+  gather_facts: no
+  connection: local
+
+  roles:
+  - baseconf
+  - spine
+
+- name: Configure leafs
+  hosts: leaf*
+  gather_facts: no
+  connection: local
+
+  roles:
+  - baseconf
+  - leaf

@@ -1,0 +1,9 @@
+vlans:
+    frontend:
+        id: 2
+        network: 10.0
+        # Network on each rack will be 10.0.{{$id_leaf}}.0/24
+    backend:
+        id: 3
+        network: 172.20
+        # Network on each rack will be 172.20.{{$id_leaf}}.0/24

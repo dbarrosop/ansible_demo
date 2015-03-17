@@ -1,0 +1,73 @@
+interfaces {
+
+{% for interface_id in leaf_uplinks %}
+
+    ge-0/0/{{ interface_id }} {
+        unit 0 {
+            description spine{{ loop.index0 }};
+            family inet {
+                address {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 + 1 }}/31;
+            }
+        }
+    }
+
+{% endfor %}
+
+    lo0 {
+        unit 0 {
+            family inet {
+                address {{loopback}}/32;
+            }
+        }
+    }
+}
+
+protocols {
+    bgp {
+        group SPINE {
+            export [ EXPORT-LOOPBACK EXPORT-HOSTS ];
+            local-as {{ as_range+id }};
+
+{% for interface_id in leaf_uplinks %}
+
+            neighbor {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 }} {
+                peer-as {{ as_range }};
+            }
+
+{% endfor %}
+
+        }
+    }
+    lldp {
+        interface all;
+    }
+}
+
+policy-options {
+    prefix-list LOOPBACK {
+        {{ loopback }}/32;
+    }
+
+    prefix-list HOSTS {
+
+{% for vlan, mapping in vlan_mapping.iteritems() %}
+
+        {{ vlans[vlan].network }}.{{ id }}.0/24;
+
+{% endfor %}
+
+    }
+
+    policy-statement EXPORT-LOOPBACK {
+        from {
+            prefix-list LOOPBACK;
+        }
+        then accept;
+    }
+    policy-statement EXPORT-HOSTS {
+        from {
+            prefix-list HOSTS;
+        }
+        then accept;
+    }
+}

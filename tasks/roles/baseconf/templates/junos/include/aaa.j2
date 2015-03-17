@@ -1,0 +1,23 @@
+system {
+    root-authentication {
+        encrypted-password "$1$7DeoJKZ/$ahBWi9d.0oV4SJtcK7bst0"; ## SECRET-DATA
+    }
+    login {
+
+{% for user in users %}
+        user {{ user.name }} {
+            uid {{ 2000 + loop.index }};
+            class super-user;
+            authentication {
+                encrypted-password "{{ user.secret }}"; ## SECRET-DATA
+
+{% if user.ssh_key is defined %}
+
+                ssh-rsa "{{ user.ssh_key }}"; ## SECRET-DATA
+{% endif %}
+            }
+        }
+{% endfor %}
+
+    }
+}
