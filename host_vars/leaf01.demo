@@ -7,6 +7,9 @@ loopback: 10.0.255.101
 management_interface: Management1
 management_ip: 192.168.76.152/24
 
+interface_maintenance:
+    -
+
 vlan_mapping:
     frontend:
         - 3

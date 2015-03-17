@@ -20,6 +20,16 @@ router bgp {{ as_range }}
    neighbor {{ interconnect_range}}.{{id}}.{{ (interface_id-1)*2 + 1 }} remote-as {{ as_range + loop.index }}
    neighbor {{ interconnect_range}}.{{id}}.{{ (interface_id-1)*2 + 1 }} maximum-routes 12000
 
+{% if interface_id in interface_maintenance %}
+
+   neighbor {{ interconnect_range}}.{{id}}.{{ (interface_id-1)*2 + 1 }} route-map BACKUP in
+   neighbor {{ interconnect_range}}.{{id}}.{{ (interface_id-1)*2 + 1 }} route-map BACKUP out
+
+{% endif %}
+
 {% endfor %}
 
    network {{ loopback }}/32
+
+route-map BACKUP permit 10
+   set metric 20
