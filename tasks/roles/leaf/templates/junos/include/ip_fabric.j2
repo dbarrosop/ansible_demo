@@ -27,11 +27,19 @@ protocols {
         group SPINE {
             export [ EXPORT-LOOPBACK EXPORT-HOSTS ];
             local-as {{ as_range+id }};
+            multipath;
 
 {% for interface_id in leaf_uplinks %}
 
             neighbor {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 }} {
                 peer-as {{ as_range }};
+
+{% if interface_id in interface_maintenance %}
+
+                import BACKUP;
+                export BACKUP;
+{% endif %}
+
             }
 
 {% endfor %}
@@ -69,5 +77,10 @@ policy-options {
             prefix-list HOSTS;
         }
         then accept;
+    }
+    policy-statement BACKUP {
+        then {
+            metric 20;
+        }
     }
 }

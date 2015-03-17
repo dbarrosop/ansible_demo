@@ -7,7 +7,8 @@ loopback: 10.0.255.102
 management_interface: ge-0/0/0.0
 management_ip: 192.168.76.153/24
 
-interface_maintenance: []
+interface_maintenance:
+    -
 
 vlan_mapping:
     frontend:

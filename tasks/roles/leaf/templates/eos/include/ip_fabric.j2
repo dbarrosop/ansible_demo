@@ -22,8 +22,8 @@ router bgp {{ as_range+id }}
 
 {% if interface_id in interface_maintenance %}
 
-   neighbor {{ interconnect_range}}.{{id}}.{{ (interface_id-1)*2 }} route-map BACKUP in
-   neighbor {{ interconnect_range}}.{{id}}.{{ (interface_id-1)*2 }} route-map BACKUP out
+   neighbor {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 }} route-map BACKUP in
+   neighbor {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 }} route-map BACKUP out
 
 {% endif %}
 

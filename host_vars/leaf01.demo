@@ -12,6 +12,6 @@ interface_maintenance:
 
 vlan_mapping:
     frontend:
-        - 3
-    backend:
         - 4
+    backend:
+        - 3

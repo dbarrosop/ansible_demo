@@ -7,4 +7,5 @@ loopback: 10.0.255.0
 management_interface: Management1
 management_ip: 192.168.76.150/24
 
-interface_maintenance: []
+interface_maintenance:
+    -
