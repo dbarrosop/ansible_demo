@@ -19,3 +19,4 @@ leaf_uplinks:
 spine_downlinks:
     - 1
     - 2
+    - 3
