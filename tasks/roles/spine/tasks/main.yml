@@ -2,3 +2,4 @@
 - name: "Building configuration from spine role"
   template: src={{os}}/spine.j2 dest=../{{baseconfdir.path}}/spine.out
   changed_when: False
+  when: commit_changes | match('0')

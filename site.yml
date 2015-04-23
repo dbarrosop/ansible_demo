@@ -10,9 +10,11 @@
       file: path=compiled/{{ inventory_hostname }}/ state=absent
       register: baseconfdir
       changed_when: False
+      when: commit_changes | match('0')
     - name: Create empty
       file: path={{baseconfdir.path}} state=directory
       changed_when: False
+      when: commit_changes | match('0')
 
 - include : tasks/def_roles.yml
 - include : tasks/assemble_push_conf.yml

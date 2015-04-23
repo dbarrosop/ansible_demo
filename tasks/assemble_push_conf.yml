@@ -8,6 +8,8 @@
   - name: Assemble configuration
     assemble: src=../compiled/{{ inventory_hostname }}/ dest=../compiled/{{ inventory_hostname }}/running.conf
     changed_when: False
+    when: commit_changes | match('0')
+
   - name: Push configuration with napalm
     napalm_install_config:
         hostname={{ inventory_hostname }}
