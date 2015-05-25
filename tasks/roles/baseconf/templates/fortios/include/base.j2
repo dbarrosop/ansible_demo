@@ -1,0 +1,69 @@
+config system console
+    set output standard
+end
+
+config system global
+    set fgd-alert-subscription advisory latest-threat
+    set gui-antivirus disable
+    set gui-application-control disable
+    set gui-dynamic-routing enable
+    set gui-endpoint-control disable
+    set gui-traffic-shaping disable
+    set gui-wan-load-balancing disable
+    set gui-webfilter disable
+    set gui-wireless-controller disable
+    set timezone 04
+    set hostname "{{ inventory_hostname.split('.')[0] }}"
+end
+
+config system dns
+    set domain "{{ inventory_hostname.split('.')[1] }}"
+end
+
+config system interface
+    edit "wan1"
+        set vdom "root"
+        set allowaccess ping
+        set type physical
+        set description "TO EX4200 TOP, NLEAF XE-0/0/46"
+        set snmp-index 1
+    next
+    edit "wan2"
+        set vdom "root"
+        set allowaccess ping
+        set type physical
+        set description "TO EX4200 BELOW, NLEAF XE-0/0/47"
+        set snmp-index 2
+    next
+    edit "modem"
+        set vdom "root"
+        set mode pppoe
+        set type physical
+        set snmp-index 3
+    next
+    edit "ssl.root"
+        set vdom "root"
+        set type tunnel
+        set alias "SSL VPN interface"
+        set snmp-index 6
+    next
+    edit "internal"
+        set vdom "root"
+        set allowaccess ping
+        set type physical
+        set snmp-index 7
+    next
+end
+
+config system zone
+    edit "service"
+        set interface "wan2"
+    next
+    edit "public"
+        set interface "wan1"
+    next
+end
+
+config system ha
+    set override disable
+end

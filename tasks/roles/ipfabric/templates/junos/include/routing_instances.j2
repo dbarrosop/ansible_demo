@@ -1,0 +1,22 @@
+{% macro routing_instances() %}
+{% for vrf, config in vrfs.iteritems() %}
+
+routing-instances {
+    {{ vrf }} {
+        instance-type virtual-router;
+
+{% for interface in interface_list %}
+{% if interface.startswith('xe') %}
+        interface {{ interface }}.{{ config.id }};
+{% endif %}
+{% endfor %}
+    }
+}
+{% endfor %}
+{% endmacro %}
+
+{% if inventory_hostname.startswith('spine') %}
+{{ routing_instances() }}
+{% else %}
+{{ routing_instances() }}
+{% endif %}

@@ -1,0 +1,47 @@
+{% for vrf, vrf_config in vrfs.iteritems() %}
+vlans {
+    {{ vrf }} {
+        vlan-id {{ vrf_config.id }};
+        l3-interface vlan.{{ vrf_config.id }};
+    }
+}
+interfaces {
+    vlan {
+        unit {{ vrf_config.id }} {
+            family inet {
+                address {{ vrf_config.access_range }}.{{ id }}.1/24;
+            }
+        }
+    }
+}
+routing-instances {
+    {{ vrf }} {
+        interface vlan.{{ vrf_config.id }};
+    }
+}
+policy-options {
+    policy-statement NORMAL-{{ vrf.upper() }} {
+        term ACCESS {
+            from interface vlan.{{ vrf_config.id }};
+            then accept;
+        }
+    }
+}
+{% endfor %}
+
+interfaces {
+{% for vlan, interfaces in vlan_mapping.iteritems() %}
+{% for interface in interfaces %}
+    ge-0/0/{{ interface }} {
+        unit 0 {
+            family ethernet-switching {
+                port-mode access;
+                vlan {
+                    members {{ vlan }};
+                }
+            }
+        }
+    }
+{% endfor %}
+{% endfor %}
+}

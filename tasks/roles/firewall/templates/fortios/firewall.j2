@@ -1,0 +1,32 @@
+config firewall address
+{% for group, entries in address_book.iteritems() %}
+{% for entry in entries %}
+    edit "{{ entry[0] }}"
+        set subnet {{ entry[1] }} 255.255.255.255
+    next
+{% endfor %}
+{% endfor %}
+end
+
+config firewall addrgrp
+{% for group, entries in address_book.iteritems() %}
+    edit "{{ group }}"
+        set member {% for entry in entries %}"{{ entry[0] }}" {% endfor %}
+
+    next
+{% endfor %}
+end
+
+config firewall policy
+{% for policy in policies %}
+    edit {{ loop.index }}
+        set srcintf "any"
+        set dstintf "any"
+        set srcaddr "{{policy[0]}}"
+        set dstaddr "{{policy[1]}}"
+        set action accept
+        set schedule "always"
+        set service "{{policy[2]}}"
+    next
+{% endfor %}
+end

@@ -1,11 +1,7 @@
+id: 1
 os: eos
 
-id: 1
-
-loopback: 10.0.255.1
-
-management_interface: Management1
-management_ip: 192.168.76.151/24
+management_ip: 10.48.71.21/22
 
 interface_maintenance:
     -

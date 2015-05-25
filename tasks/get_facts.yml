@@ -1,0 +1,17 @@
+---
+- name: Getting facts with napalm
+  hosts: all
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: napalm_get_facts
+      napalm_get_facts:
+        hostname={{ inventory_hostname }}
+        username=dbarroso
+        dev_os={{os}}
+        password=p4ssw0rd
+      when: commit_changes | match('0')
+
+      tags:
+        - base

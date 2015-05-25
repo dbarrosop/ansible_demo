@@ -1,0 +1,38 @@
+route-policy DISABLED
+  drop
+end-policy
+
+route-policy NORMAL_PEER
+  pass
+end-policy
+
+route-policy PRIMARY_TRANSIT
+  pass
+end-policy
+
+route-policy DEPREFERRED_PEER
+  set med +20
+end-policy
+
+route-policy SECONDARY_TRANSIT
+  set med +20
+end-policy
+
+router static
+ address-family ipv4 unicast
+  0.0.0.0/0 Null0 254
+
+router bgp 4290029998
+ address-family ipv4 unicast
+  network 0.0.0.0/0
+
+{% for peering_type, peers in internet_peers.iteritems() %}
+{% for peer, pc in peers.iteritems() %}
+ neighbor {{ peer }}
+  description {{ pc['description'] }}
+  remote-as {{ pc['as'] }}
+  address-family ipv4 unicast
+   route-policy {{ pc['policy'].upper() }} in
+   route-policy {{ pc['policy'].upper() }} out
+{% endfor %}
+{% endfor %}

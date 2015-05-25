@@ -1,0 +1,36 @@
+---
+policies:
+    - ['frontend', 'backend', 'PING']
+    - ['backend', 'frontend', 'PING']
+    - ['backend', 'frontend', 'HTTP']
+    - ['frontend', 'backend', 'MYSQL']
+
+internet_peers:
+  # Possible options are:
+  # pass, disabled, primary_transit, secondary_transit, normal_peer, depreferred_peer
+  transit:
+    172.20.23.4:
+      description: Expensive transit provider
+      as: 65301
+      policy: primary_transit
+    10.4.124.252:
+      description: Super expensive transit provider
+      as: 65102
+      policy: secondary_transit
+  peers:
+    172.20.255.1:
+      description: ACME Corp
+      as: 65401
+      policy: normal_peer
+    172.20.255.2:
+      description: We have eyeballs
+      as: 65410
+      policy: depreferred_peer
+    172.20.255.3:
+      description: University of Neverland
+      as: 65404
+      policy: depreferred_peer
+    172.20.255.4:
+      description: University of wg
+      as: 65415
+      policy: normal_peer

@@ -13,22 +13,25 @@ system {
             any any;
             authorization info;
         }
-        file interactive-commands {
-            interactive-commands any;
-        }
     }
-    license {
-        autoupdate {
-            url https://ae1.juniper.net/junos/key_retrieval;
-        }
+    name-server {
+        {{ primary_dns_server }};
+    }
+    ntp {
+        server {{ primary_ntp_server }};
+        server {{ secondary_ntp_server }};
     }
 }
 interfaces {
-     {{ management_interface }} {
-
+     me0 {
+        unit 0
             family inet {
-                address 192.168.76.153/24;
+                address {{ management_ip }};
             }
         }
 }
-
+routing-options {
+    static {
+        route 0.0.0.0/0 next-hop {{ management_gw }};
+    }
+}

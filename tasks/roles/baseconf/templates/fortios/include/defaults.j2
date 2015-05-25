@@ -1,0 +1,2040 @@
+config system autoupdate tunneling
+end
+config system central-management
+    set type fortiguard
+end
+config vpn certificate ca
+end
+config vpn certificate local
+    edit "Fortinet_CA_SSLProxy"
+        set password ENC c6J+S7/Mp2JYtKJ2mY2bGApgItyNo6VK1143SqF2IMysz+MFgbdGSAgED5p+Z2qQR5hh6OlxRh1/v+svxseT0dyH5viiIbnhZOAPLWhdSaHDZZ5HuHJtKp+Y2s/AIoWYftCcQc6Qqpz5qWEu3/QGxsWUOpYYH/PV6huc3kDa+3sa5WV9TgZh2VX6JslPMJsN39hFaQ==
+        set comments "This is the default CA certificate the SSL Inspection will use when generating new server certificates."
+    next
+    edit "Fortinet_SSLProxy"
+        set password ENC Z84YZe1SZ5TadVL7Ff9zDpFOrux4sV6rP0yNz9Y+iMwG1urKawOGue0+ApgKZ5N093yQG52nXQ/gJOfpGlO4WOG977hvLS+lgAKGjmc3UnnwZK9nwbfbabLtuzJ1eL/G1G02t7ZJ/ozavGasnw4biiqdYCZbXWFokSOm6TfBcVoAEuqQClDjMw7gPZ0NgmoiKmsYMQ==
+    next
+end
+config system session-sync
+end
+config gui console
+    unset preferences
+end
+config system auto-install
+    set auto-install-config enable
+    set auto-install-image enable
+end
+config system settings
+end
+config firewall shaper traffic-shaper
+    edit "high-priority"
+        set maximum-bandwidth 1048576
+        set per-policy enable
+    next
+    edit "medium-priority"
+        set maximum-bandwidth 1048576
+        set priority medium
+        set per-policy enable
+    next
+    edit "low-priority"
+        set maximum-bandwidth 1048576
+        set priority low
+        set per-policy enable
+    next
+    edit "guarantee-100kbps"
+        set guaranteed-bandwidth 100
+        set maximum-bandwidth 1048576
+        set per-policy enable
+    next
+    edit "shared-1M-pipe"
+        set maximum-bandwidth 1024
+    next
+end
+config web-proxy global
+    set proxy-fqdn "default.fqdn"
+end
+config application list
+    edit "default"
+        set comment "Monitor all applications."
+            config entries
+                edit 1
+                    set action pass
+                next
+            end
+    next
+    edit "block-p2p"
+            config entries
+                edit 1
+                    set category 2
+                next
+            end
+    next
+    edit "monitor-p2p-and-media"
+            config entries
+                edit 1
+                    set category 2
+                    set action pass
+                next
+                edit 2
+                    set category 5
+                    set action pass
+                next
+            end
+    next
+end
+config user device-category
+    edit "ipad"
+    next
+    edit "iphone"
+    next
+    edit "gaming-console"
+    next
+    edit "blackberry-phone"
+    next
+    edit "blackberry-playbook"
+    next
+    edit "linux-pc"
+    next
+    edit "mac"
+    next
+    edit "windows-pc"
+    next
+    edit "android-phone"
+    next
+    edit "android-tablet"
+    next
+    edit "media-streaming"
+    next
+    edit "windows-phone"
+    next
+    edit "windows-tablet"
+    next
+    edit "fortinet-device"
+    next
+    edit "ip-phone"
+    next
+    edit "router-nat-device"
+    next
+    edit "printer"
+    next
+    edit "other-network-device"
+    next
+    edit "collected-emails"
+    next
+    edit "all"
+    next
+end
+config webfilter ftgd-local-cat
+    edit "custom1"
+        set id 140
+    next
+    edit "custom2"
+        set id 141
+    next
+end
+config ips sensor
+    edit "default"
+        set comment "Prevent critical attacks."
+            config entries
+                edit 1
+                    set severity medium high critical
+                next
+            end
+    next
+    edit "all_default"
+        set comment "All predefined signatures with default setting."
+            config entries
+                edit 1
+                next
+            end
+    next
+    edit "all_default_pass"
+        set comment "All predefined signatures with PASS action."
+            config entries
+                edit 1
+                    set action pass
+                next
+            end
+    next
+    edit "protect_http_server"
+        set comment "Protect against HTTP server-side vulnerabilities."
+            config entries
+                edit 1
+                    set location server
+                    set protocol HTTP
+                next
+            end
+    next
+    edit "protect_email_server"
+        set comment "Protect against email server-side vulnerabilities."
+            config entries
+                edit 1
+                    set location server
+                    set protocol SMTP POP3 IMAP
+                next
+            end
+    next
+    edit "protect_client"
+        set comment "Protect against client-side vulnerabilities."
+            config entries
+                edit 1
+                    set location client
+                next
+            end
+    next
+    edit "high_security"
+        set comment "Blocks all Critical/High/Medium and some Low severity vulnerabilities"
+            config entries
+                edit 1
+                    set severity medium high critical
+                    set status enable
+                    set action block
+                next
+                edit 2
+                    set severity low
+                next
+            end
+    next
+end
+config ips global
+    set default-app-cat-mask 18446744073474670591
+end
+config ips dbinfo
+    set version 1
+end
+config dlp filepattern
+    edit 1
+        set name "builtin-patterns"
+            config entries
+                edit "*.bat"
+                next
+                edit "*.com"
+                next
+                edit "*.dll"
+                next
+                edit "*.doc"
+                next
+                edit "*.exe"
+                next
+                edit "*.gz"
+                next
+                edit "*.hta"
+                next
+                edit "*.ppt"
+                next
+                edit "*.rar"
+                next
+                edit "*.scr"
+                next
+                edit "*.tar"
+                next
+                edit "*.tgz"
+                next
+                edit "*.vb?"
+                next
+                edit "*.wps"
+                next
+                edit "*.xl?"
+                next
+                edit "*.zip"
+                next
+                edit "*.pif"
+                next
+                edit "*.cpl"
+                next
+            end
+    next
+    edit 2
+        set name "all_executables"
+            config entries
+                edit "bat"
+                    set filter-type type
+                    set file-type bat
+                next
+                edit "exe"
+                    set filter-type type
+                    set file-type exe
+                next
+                edit "elf"
+                    set filter-type type
+                    set file-type elf
+                next
+                edit "hta"
+                    set filter-type type
+                    set file-type hta
+                next
+            end
+    next
+end
+config dlp fp-sensitivity
+    edit "Private"
+    next
+    edit "Critical"
+    next
+    edit "Warning"
+    next
+end
+config dlp sensor
+    edit "default"
+        set comment "Log a summary of email and web traffic."
+        set summary-proto smtp pop3 imap http-get http-post
+    next
+end
+config webfilter content
+end
+config webfilter urlfilter
+end
+config spamfilter bword
+end
+config spamfilter bwl
+end
+config spamfilter mheader
+end
+config spamfilter dnsbl
+end
+config spamfilter iptrust
+end
+config log threat-weight
+        config web
+            edit 1
+                set category 26
+                set level high
+            next
+            edit 2
+                set category 61
+                set level high
+            next
+            edit 3
+                set category 86
+                set level high
+            next
+            edit 4
+                set category 1
+                set level medium
+            next
+            edit 5
+                set category 3
+                set level medium
+            next
+            edit 6
+                set category 4
+                set level medium
+            next
+            edit 7
+                set category 5
+                set level medium
+            next
+            edit 8
+                set category 6
+                set level medium
+            next
+            edit 9
+                set category 12
+                set level medium
+            next
+            edit 10
+                set category 59
+                set level medium
+            next
+            edit 11
+                set category 62
+                set level medium
+            next
+            edit 12
+                set category 83
+                set level medium
+            next
+            edit 13
+                set category 72
+            next
+            edit 14
+                set category 14
+            next
+        end
+        config application
+            edit 1
+                set category 2
+            next
+            edit 2
+                set category 6
+                set level medium
+            next
+            edit 3
+                set category 19
+                set level critical
+            next
+        end
+end
+config icap profile
+    edit "default"
+    next
+end
+config user fortitoken
+    edit "FTKMOB374A658E95"
+        set license "FTMTRIAL00051364"
+    next
+    edit "FTKMOB37E72B3200"
+        set license "FTMTRIAL00051364"
+    next
+end
+config user local
+    edit "guest"
+        set type password
+        set passwd ENC 7Sq4H42Nbsx5YDjwTIzg6TGPFhJ8Q99lmjUhFfFg8astgVJzmm5pOStZuq8sLprW5vsLnw28Nyiy3hL9lvrvZnEq6bKtoHcT8u32LMy0zuaMRFbuPUXmnWjubRDYjSvQZ7CW0BHgMK5lXujY46qxZV1wwcBnJqbXwD4F98JTmzTSa5so7hvIV8CeBx2wtzWo2yogjQ==
+    next
+end
+config user group
+    edit "SSO_Guest_Users"
+    next
+    edit "Guest-group"
+        set member "guest"
+    next
+end
+config user device-group
+    edit "Mobile Devices"
+        set member "android-phone" "android-tablet" "blackberry-phone" "blackberry-playbook" "ipad" "iphone" "windows-phone" "windows-tablet"
+        set comment "Phones, tablets, etc."
+    next
+    edit "Network Devices"
+        set member "fortinet-device" "other-network-device" "router-nat-device"
+        set comment "Routers, firewalls, gateways, etc."
+    next
+    edit "Others"
+        set member "gaming-console" "media-streaming"
+        set comment "Other devices."
+    next
+end
+config vpn ssl web host-check-software
+    edit "FortiClient-AV"
+        set guid "C86EC76D-5A4C-40E7-BD94-59358E544D81"
+    next
+    edit "FortiClient-FW"
+        set type fw
+        set guid "528CB157-D384-4593-AAAA-E42DFF111CED"
+    next
+    edit "FortiClient-AV-Vista-Win7"
+        set guid "385618A6-2256-708E-3FB9-7E98B93F91F9"
+    next
+    edit "FortiClient-FW-Vista-Win7"
+        set type fw
+        set guid "006D9983-6839-71D6-14E6-D7AD47ECD682"
+    next
+    edit "AVG-Internet-Security-AV"
+        set guid "17DDD097-36FF-435F-9E1B-52D74245D6BF"
+    next
+    edit "AVG-Internet-Security-FW"
+        set type fw
+        set guid "8DECF618-9569-4340-B34A-D78D28969B66"
+    next
+    edit "AVG-Internet-Security-AV-Vista-Win7"
+        set guid "0C939084-9E57-CBDB-EA61-0B0C7F62AF82"
+    next
+    edit "AVG-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "34A811A1-D438-CA83-C13E-A23981B1E8F9"
+    next
+    edit "CA-Anti-Virus"
+        set guid "17CFD1EA-56CF-40B5-A06B-BD3A27397C93"
+    next
+    edit "CA-Internet-Security-AV"
+        set guid "6B98D35F-BB76-41C0-876B-A50645ED099A"
+    next
+    edit "CA-Internet-Security-FW"
+        set type fw
+        set guid "38102F93-1B6E-4922-90E1-A35D8DC6DAA3"
+    next
+    edit "CA-Internet-Security-AV-Vista-Win7"
+        set guid "3EED0195-0A4B-4EF3-CC4F-4F401BDC245F"
+    next
+    edit "CA-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "06D680B0-4024-4FAB-E710-E675E50F6324"
+    next
+    edit "CA-Personal-Firewall"
+        set type fw
+        set guid "14CB4B80-8E52-45EA-905E-67C1267B4160"
+    next
+    edit "F-Secure-Internet-Security-AV"
+        set guid "E7512ED5-4245-4B4D-AF3A-382D3F313F15"
+    next
+    edit "F-Secure-Internet-Security-FW"
+        set type fw
+        set guid "D4747503-0346-49EB-9262-997542F79BF4"
+    next
+    edit "F-Secure-Internet-Security-AV-Vista-Win7"
+        set guid "15414183-282E-D62C-CA37-EF24860A2F17"
+    next
+    edit "F-Secure-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "2D7AC0A6-6241-D774-E168-461178D9686C"
+    next
+    edit "Kaspersky-AV"
+        set guid "2C4D4BC6-0793-4956-A9F9-E252435469C0"
+    next
+    edit "Kaspersky-FW"
+        set type fw
+        set guid "2C4D4BC6-0793-4956-A9F9-E252435469C0"
+    next
+    edit "Kaspersky-AV-Vista-Win7"
+        set guid "AE1D740B-8F0F-D137-211D-873D44B3F4AE"
+    next
+    edit "Kaspersky-FW-Vista-Win7"
+        set type fw
+        set guid "9626F52E-C560-D06F-0A42-2E08BA60B3D5"
+    next
+    edit "McAfee-Internet-Security-Suite-AV"
+        set guid "84B5EE75-6421-4CDE-A33A-DD43BA9FAD83"
+    next
+    edit "McAfee-Internet-Security-Suite-FW"
+        set type fw
+        set guid "94894B63-8C7F-4050-BDA4-813CA00DA3E8"
+    next
+    edit "McAfee-Internet-Security-Suite-AV-Vista-Win7"
+        set guid "86355677-4064-3EA7-ABB3-1B136EB04637"
+    next
+    edit "McAfee-Internet-Security-Suite-FW-Vista-Win7"
+        set type fw
+        set guid "BE0ED752-0A0B-3FFF-80EC-B2269063014C"
+    next
+    edit "McAfee-Virus-Scan-Enterprise"
+        set guid "918A2B0B-2C60-4016-A4AB-E868DEABF7F0"
+    next
+    edit "Norton-360-2.0-AV"
+        set guid "A5F1BC7C-EA33-4247-961C-0217208396C4"
+    next
+    edit "Norton-360-2.0-FW"
+        set type fw
+        set guid "371C0A40-5A0C-4AD2-A6E5-69C02037FBF3"
+    next
+    edit "Norton-360-3.0-AV"
+        set guid "E10A9785-9598-4754-B552-92431C1C35F8"
+    next
+    edit "Norton-360-3.0-FW"
+        set type fw
+        set guid "7C21A4C9-F61F-4AC4-B722-A6E19C16F220"
+    next
+    edit "Norton-Internet-Security-AV"
+        set guid "E10A9785-9598-4754-B552-92431C1C35F8"
+    next
+    edit "Norton-Internet-Security-FW"
+        set type fw
+        set guid "7C21A4C9-F61F-4AC4-B722-A6E19C16F220"
+    next
+    edit "Norton-Internet-Security-AV-Vista-Win7"
+        set guid "88C95A36-8C3B-2F2C-1B8B-30FCCFDC4855"
+    next
+    edit "Norton-Internet-Security-FW-Vista-Win7"
+        set type fw
+        set guid "B0F2DB13-C654-2E74-30D4-99C9310F0F2E"
+    next
+    edit "Symantec-Endpoint-Protection-AV"
+        set guid "FB06448E-52B8-493A-90F3-E43226D3305C"
+    next
+    edit "Symantec-Endpoint-Protection-FW"
+        set type fw
+        set guid "BE898FE3-CD0B-4014-85A9-03DB9923DDB6"
+    next
+    edit "Symantec-Endpoint-Protection-AV-Vista-Win7"
+        set guid "88C95A36-8C3B-2F2C-1B8B-30FCCFDC4855"
+    next
+    edit "Symantec-Endpoint-Protection-FW-Vista-Win7"
+        set type fw
+        set guid "B0F2DB13-C654-2E74-30D4-99C9310F0F2E"
+    next
+    edit "Panda-Antivirus+Firewall-2008-AV"
+        set guid "EEE2D94A-D4C1-421A-AB2C-2CE8FE51747A"
+    next
+    edit "Panda-Antivirus+Firewall-2008-FW"
+        set type fw
+        set guid "7B090DC0-8905-4BAF-8040-FD98A41C8FB8"
+    next
+    edit "Panda-Internet-Security-AV"
+        set guid "4570FB70-5C9E-47E9-B16C-A3A6A06C4BF0"
+    next
+    edit "Panda-Internet-Security-2006~2007-FW"
+        set type fw
+        set guid "4570FB70-5C9E-47E9-B16C-A3A6A06C4BF0"
+    next
+    edit "Panda-Internet-Security-2008~2009-FW"
+        set type fw
+        set guid "7B090DC0-8905-4BAF-8040-FD98A41C8FB8"
+    next
+    edit "Sophos-Anti-Virus"
+        set guid "3F13C776-3CBE-4DE9-8BF6-09E5183CA2BD"
+    next
+    edit "Sophos-Enpoint-Secuirty-and-Control-FW"
+        set type fw
+        set guid "0786E95E-326A-4524-9691-41EF88FB52EA"
+    next
+    edit "Sophos-Enpoint-Secuirty-and-Control-AV-Vista-Win7"
+        set guid "479CCF92-4960-B3E0-7373-BF453B467D2C"
+    next
+    edit "Sophos-Enpoint-Secuirty-and-Control-FW-Vista-Win7"
+        set type fw
+        set guid "7FA74EB7-030F-B2B8-582C-1670C5953A57"
+    next
+    edit "Trend-Micro-AV"
+        set guid "7D2296BC-32CC-4519-917E-52E652474AF5"
+    next
+    edit "Trend-Micro-FW"
+        set type fw
+        set guid "3E790E9E-6A5D-4303-A7F9-185EC20F3EB6"
+    next
+    edit "Trend-Micro-AV-Vista-Win7"
+        set guid "48929DFC-7A52-A34F-8351-C4DBEDBD9C50"
+    next
+    edit "Trend-Micro-FW-Vista-Win7"
+        set type fw
+        set guid "70A91CD9-303D-A217-A80E-6DEE136EDB2B"
+    next
+    edit "ZoneAlarm-AV"
+        set guid "5D467B10-818C-4CAB-9FF7-6893B5B8F3CF"
+    next
+    edit "ZoneAlarm-FW"
+        set type fw
+        set guid "829BDA32-94B3-44F4-8446-F8FCFF809F8B"
+    next
+    edit "ZoneAlarm-AV-Vista-Win7"
+        set guid "D61596DF-D219-341C-49B3-AD30538CBC5B"
+    next
+    edit "ZoneAlarm-FW-Vista-Win7"
+        set type fw
+        set guid "EE2E17FA-9876-3544-62EC-0405AD5FFB20"
+    next
+    edit "ESET-Smart-Security-AV"
+        set guid "19259FAE-8396-A113-46DB-15B0E7DFA289"
+    next
+    edit "ESET-Smart-Security-FW"
+        set type fw
+        set guid "211E1E8B-C9F9-A04B-6D84-BC85190CE5F2"
+    next
+end
+config vpn ssl web portal
+    edit "full-access"
+        set tunnel-mode enable
+        set ipv6-tunnel-mode enable
+        set web-mode enable
+        set ip-pools "SSLVPN_TUNNEL_ADDR1"
+        set ipv6-pools "SSLVPN_TUNNEL_IPv6_ADDR1"
+        set page-layout double-column
+    next
+    edit "web-access"
+        set web-mode enable
+    next
+    edit "tunnel-access"
+        set tunnel-mode enable
+        set ipv6-tunnel-mode enable
+        set ip-pools "SSLVPN_TUNNEL_ADDR1"
+        set ipv6-pools "SSLVPN_TUNNEL_IPv6_ADDR1"
+    next
+end
+config vpn ssl settings
+    set servercert "Fortinet_Factory"
+    set port 443
+end
+config voip profile
+    edit "default"
+        set comment "Default VoIP profile."
+    next
+    edit "strict"
+            config sip
+                set malformed-request-line discard
+                set malformed-header-via discard
+                set malformed-header-from discard
+                set malformed-header-to discard
+                set malformed-header-call-id discard
+                set malformed-header-cseq discard
+                set malformed-header-rack discard
+                set malformed-header-rseq discard
+                set malformed-header-contact discard
+                set malformed-header-record-route discard
+                set malformed-header-route discard
+                set malformed-header-expires discard
+                set malformed-header-content-type discard
+                set malformed-header-content-length discard
+                set malformed-header-max-forwards discard
+                set malformed-header-allow discard
+                set malformed-header-p-asserted-identity discard
+                set malformed-header-sdp-v discard
+                set malformed-header-sdp-o discard
+                set malformed-header-sdp-s discard
+                set malformed-header-sdp-i discard
+                set malformed-header-sdp-c discard
+                set malformed-header-sdp-b discard
+                set malformed-header-sdp-z discard
+                set malformed-header-sdp-k discard
+                set malformed-header-sdp-a discard
+                set malformed-header-sdp-t discard
+                set malformed-header-sdp-r discard
+                set malformed-header-sdp-m discard
+            end
+    next
+end
+config webfilter profile
+    edit "default"
+        set comment "Default web filtering."
+        set post-action comfort
+            config ftgd-wf
+                    config filters
+                        edit 1
+                            set category 2
+                            set action warning
+                        next
+                        edit 2
+                            set category 7
+                            set action warning
+                        next
+                        edit 3
+                            set category 8
+                            set action warning
+                        next
+                        edit 4
+                            set category 9
+                            set action warning
+                        next
+                        edit 5
+                            set category 11
+                            set action warning
+                        next
+                        edit 6
+                            set category 12
+                            set action warning
+                        next
+                        edit 7
+                            set category 13
+                            set action warning
+                        next
+                        edit 8
+                            set category 14
+                            set action warning
+                        next
+                        edit 9
+                            set category 15
+                            set action warning
+                        next
+                        edit 10
+                            set category 16
+                            set action warning
+                        next
+                        edit 11
+                            set action warning
+                        next
+                        edit 12
+                            set category 57
+                            set action warning
+                        next
+                        edit 13
+                            set category 63
+                            set action warning
+                        next
+                        edit 14
+                            set category 64
+                            set action warning
+                        next
+                        edit 15
+                            set category 65
+                            set action warning
+                        next
+                        edit 16
+                            set category 66
+                            set action warning
+                        next
+                        edit 17
+                            set category 67
+                            set action warning
+                        next
+                        edit 18
+                            set category 26
+                            set action block
+                        next
+                    end
+            end
+    next
+    edit "web-filter-flow"
+        set comment "Flow-based web filter profile."
+        set inspection-mode flow-based
+        set post-action comfort
+            config ftgd-wf
+                    config filters
+                        edit 1
+                            set category 2
+                        next
+                        edit 2
+                            set category 7
+                        next
+                        edit 3
+                            set category 8
+                        next
+                        edit 4
+                            set category 9
+                        next
+                        edit 5
+                            set category 11
+                        next
+                        edit 6
+                            set category 12
+                        next
+                        edit 7
+                            set category 13
+                        next
+                        edit 8
+                            set category 14
+                        next
+                        edit 9
+                            set category 15
+                        next
+                        edit 10
+                            set category 16
+                        next
+                        edit 11
+                        next
+                        edit 12
+                            set category 57
+                        next
+                        edit 13
+                            set category 63
+                        next
+                        edit 14
+                            set category 64
+                        next
+                        edit 15
+                            set category 65
+                        next
+                        edit 16
+                            set category 66
+                        next
+                        edit 17
+                            set category 67
+                        next
+                        edit 18
+                            set category 26
+                            set action block
+                        next
+                    end
+            end
+    next
+    edit "monitor-all"
+        set comment "Monitor and log all visited URLs, proxy-based."
+            config ftgd-wf
+                unset options
+                    config filters
+                        edit 1
+                            set category 1
+                        next
+                        edit 2
+                            set category 3
+                        next
+                        edit 3
+                            set category 4
+                        next
+                        edit 4
+                            set category 5
+                        next
+                        edit 5
+                            set category 6
+                        next
+                        edit 6
+                            set category 12
+                        next
+                        edit 7
+                            set category 59
+                        next
+                        edit 8
+                            set category 62
+                        next
+                        edit 9
+                            set category 83
+                        next
+                        edit 10
+                            set category 2
+                        next
+                        edit 11
+                            set category 7
+                        next
+                        edit 12
+                            set category 8
+                        next
+                        edit 13
+                            set category 9
+                        next
+                        edit 14
+                            set category 11
+                        next
+                        edit 15
+                            set category 13
+                        next
+                        edit 16
+                            set category 14
+                        next
+                        edit 17
+                            set category 15
+                        next
+                        edit 18
+                            set category 16
+                        next
+                        edit 19
+                            set category 57
+                        next
+                        edit 20
+                            set category 63
+                        next
+                        edit 21
+                            set category 64
+                        next
+                        edit 22
+                            set category 65
+                        next
+                        edit 23
+                            set category 66
+                        next
+                        edit 24
+                            set category 67
+                        next
+                        edit 25
+                            set category 19
+                        next
+                        edit 26
+                            set category 24
+                        next
+                        edit 27
+                            set category 25
+                        next
+                        edit 28
+                            set category 72
+                        next
+                        edit 29
+                            set category 75
+                        next
+                        edit 30
+                            set category 76
+                        next
+                        edit 31
+                            set category 26
+                        next
+                        edit 32
+                            set category 61
+                        next
+                        edit 33
+                            set category 86
+                        next
+                        edit 34
+                            set category 17
+                        next
+                        edit 35
+                            set category 18
+                        next
+                        edit 36
+                            set category 20
+                        next
+                        edit 37
+                            set category 23
+                        next
+                        edit 38
+                            set category 28
+                        next
+                        edit 39
+                            set category 29
+                        next
+                        edit 40
+                            set category 30
+                        next
+                        edit 41
+                            set category 33
+                        next
+                        edit 42
+                            set category 34
+                        next
+                        edit 43
+                            set category 35
+                        next
+                        edit 44
+                            set category 36
+                        next
+                        edit 45
+                            set category 37
+                        next
+                        edit 46
+                            set category 38
+                        next
+                        edit 47
+                            set category 39
+                        next
+                        edit 48
+                            set category 40
+                        next
+                        edit 49
+                            set category 42
+                        next
+                        edit 50
+                            set category 44
+                        next
+                        edit 51
+                            set category 46
+                        next
+                        edit 52
+                            set category 47
+                        next
+                        edit 53
+                            set category 48
+                        next
+                        edit 54
+                            set category 54
+                        next
+                        edit 55
+                            set category 55
+                        next
+                        edit 56
+                            set category 58
+                        next
+                        edit 57
+                            set category 68
+                        next
+                        edit 58
+                            set category 69
+                        next
+                        edit 59
+                            set category 70
+                        next
+                        edit 60
+                            set category 71
+                        next
+                        edit 61
+                            set category 77
+                        next
+                        edit 62
+                            set category 78
+                        next
+                        edit 63
+                            set category 79
+                        next
+                        edit 64
+                            set category 80
+                        next
+                        edit 65
+                            set category 82
+                        next
+                        edit 66
+                            set category 85
+                        next
+                        edit 67
+                            set category 87
+                        next
+                        edit 68
+                            set category 31
+                        next
+                        edit 69
+                            set category 41
+                        next
+                        edit 70
+                            set category 43
+                        next
+                        edit 71
+                            set category 49
+                        next
+                        edit 72
+                            set category 50
+                        next
+                        edit 73
+                            set category 51
+                        next
+                        edit 74
+                            set category 52
+                        next
+                        edit 75
+                            set category 53
+                        next
+                        edit 76
+                            set category 56
+                        next
+                        edit 77
+                            set category 81
+                        next
+                        edit 78
+                            set category 84
+                        next
+                        edit 79
+                        next
+                    end
+            end
+        set log-all-url enable
+        set web-content-log disable
+        set web-filter-activex-log disable
+        set web-filter-command-block-log disable
+        set web-filter-cookie-log disable
+        set web-filter-applet-log disable
+        set web-filter-jscript-log disable
+        set web-filter-js-log disable
+        set web-filter-vbs-log disable
+        set web-filter-unknown-log disable
+        set web-filter-referer-log disable
+        set web-filter-cookie-removal-log disable
+        set web-url-log disable
+        set web-invalid-domain-log disable
+        set web-ftgd-err-log disable
+        set web-ftgd-quota-usage disable
+    next
+    edit "flow-monitor-all"
+        set comment "Monitor and log all visited URLs, flow-based."
+        set inspection-mode flow-based
+            config ftgd-wf
+                unset options
+                    config filters
+                        edit 1
+                            set category 1
+                        next
+                        edit 2
+                            set category 3
+                        next
+                        edit 3
+                            set category 4
+                        next
+                        edit 4
+                            set category 5
+                        next
+                        edit 5
+                            set category 6
+                        next
+                        edit 6
+                            set category 12
+                        next
+                        edit 7
+                            set category 59
+                        next
+                        edit 8
+                            set category 62
+                        next
+                        edit 9
+                            set category 83
+                        next
+                        edit 10
+                            set category 2
+                        next
+                        edit 11
+                            set category 7
+                        next
+                        edit 12
+                            set category 8
+                        next
+                        edit 13
+                            set category 9
+                        next
+                        edit 14
+                            set category 11
+                        next
+                        edit 15
+                            set category 13
+                        next
+                        edit 16
+                            set category 14
+                        next
+                        edit 17
+                            set category 15
+                        next
+                        edit 18
+                            set category 16
+                        next
+                        edit 19
+                            set category 57
+                        next
+                        edit 20
+                            set category 63
+                        next
+                        edit 21
+                            set category 64
+                        next
+                        edit 22
+                            set category 65
+                        next
+                        edit 23
+                            set category 66
+                        next
+                        edit 24
+                            set category 67
+                        next
+                        edit 25
+                            set category 19
+                        next
+                        edit 26
+                            set category 24
+                        next
+                        edit 27
+                            set category 25
+                        next
+                        edit 28
+                            set category 72
+                        next
+                        edit 29
+                            set category 75
+                        next
+                        edit 30
+                            set category 76
+                        next
+                        edit 31
+                            set category 26
+                        next
+                        edit 32
+                            set category 61
+                        next
+                        edit 33
+                            set category 86
+                        next
+                        edit 34
+                            set category 17
+                        next
+                        edit 35
+                            set category 18
+                        next
+                        edit 36
+                            set category 20
+                        next
+                        edit 37
+                            set category 23
+                        next
+                        edit 38
+                            set category 28
+                        next
+                        edit 39
+                            set category 29
+                        next
+                        edit 40
+                            set category 30
+                        next
+                        edit 41
+                            set category 33
+                        next
+                        edit 42
+                            set category 34
+                        next
+                        edit 43
+                            set category 35
+                        next
+                        edit 44
+                            set category 36
+                        next
+                        edit 45
+                            set category 37
+                        next
+                        edit 46
+                            set category 38
+                        next
+                        edit 47
+                            set category 39
+                        next
+                        edit 48
+                            set category 40
+                        next
+                        edit 49
+                            set category 42
+                        next
+                        edit 50
+                            set category 44
+                        next
+                        edit 51
+                            set category 46
+                        next
+                        edit 52
+                            set category 47
+                        next
+                        edit 53
+                            set category 48
+                        next
+                        edit 54
+                            set category 54
+                        next
+                        edit 55
+                            set category 55
+                        next
+                        edit 56
+                            set category 58
+                        next
+                        edit 57
+                            set category 68
+                        next
+                        edit 58
+                            set category 69
+                        next
+                        edit 59
+                            set category 70
+                        next
+                        edit 60
+                            set category 71
+                        next
+                        edit 61
+                            set category 77
+                        next
+                        edit 62
+                            set category 78
+                        next
+                        edit 63
+                            set category 79
+                        next
+                        edit 64
+                            set category 80
+                        next
+                        edit 65
+                            set category 82
+                        next
+                        edit 66
+                            set category 85
+                        next
+                        edit 67
+                            set category 87
+                        next
+                        edit 68
+                            set category 31
+                        next
+                        edit 69
+                            set category 41
+                        next
+                        edit 70
+                            set category 43
+                        next
+                        edit 71
+                            set category 49
+                        next
+                        edit 72
+                            set category 50
+                        next
+                        edit 73
+                            set category 51
+                        next
+                        edit 74
+                            set category 52
+                        next
+                        edit 75
+                            set category 53
+                        next
+                        edit 76
+                            set category 56
+                        next
+                        edit 77
+                            set category 81
+                        next
+                        edit 78
+                            set category 84
+                        next
+                        edit 79
+                        next
+                    end
+            end
+        set log-all-url enable
+        set web-content-log disable
+        set web-filter-activex-log disable
+        set web-filter-command-block-log disable
+        set web-filter-cookie-log disable
+        set web-filter-applet-log disable
+        set web-filter-jscript-log disable
+        set web-filter-js-log disable
+        set web-filter-vbs-log disable
+        set web-filter-unknown-log disable
+        set web-filter-referer-log disable
+        set web-filter-cookie-removal-log disable
+        set web-url-log disable
+        set web-invalid-domain-log disable
+        set web-ftgd-err-log disable
+        set web-ftgd-quota-usage disable
+    next
+end
+config webfilter override
+end
+config webfilter override-user
+end
+config webfilter ftgd-warning
+end
+config webfilter ftgd-local-rating
+end
+config webfilter search-engine
+    edit "google"
+        set hostname ".*\\.google\\..*"
+        set url "^\\/((custom|search|images|videosearch|webhp)\\?)"
+        set query "q="
+        set safesearch url
+        set safesearch-str "&safe=active"
+    next
+    edit "yahoo"
+        set hostname ".*\\.yahoo\\..*"
+        set url "^\\/search(\\/video|\\/images){0,1}(\\?|;)"
+        set query "p="
+        set safesearch url
+        set safesearch-str "&vm=r"
+    next
+    edit "bing"
+        set hostname "www\\.bing\\.com"
+        set url "^(\\/images|\\/videos)?(\\/search|\\/async|\\/asyncv2)\\?"
+        set query "q="
+        set safesearch url
+        set safesearch-str "&adlt=strict"
+    next
+    edit "yandex"
+        set hostname "yandex\\..*"
+        set url "^\\/(yand|images\\/|video\\/)(search)\\?"
+        set query "text="
+        set safesearch url
+        set safesearch-str "&family=yes"
+    next
+    edit "youtube"
+        set hostname ".*\\.youtube\\..*"
+        set safesearch header
+    next
+    edit "baidu"
+        set hostname ".*\\.baidu\\.com"
+        set url "^\\/s?\\?"
+        set query "wd="
+    next
+    edit "baidu2"
+        set hostname ".*\\.baidu\\.com"
+        set url "^\\/(ns|q|m|i|v)\\?"
+        set query "word="
+    next
+    edit "baidu3"
+        set hostname "tieba\\.baidu\\.com"
+        set url "^\\/f\\?"
+        set query "kw="
+    next
+end
+config antivirus profile
+    edit "default"
+        set comment "Scan files and block viruses."
+            config http
+                set options scan
+            end
+            config ftp
+                set options scan
+            end
+            config imap
+                set options scan
+            end
+            config pop3
+                set options scan
+            end
+            config smtp
+                set options scan
+            end
+    next
+end
+config spamfilter profile
+    edit "default"
+        set comment "Malware and phishing URL filtering."
+    next
+end
+config firewall schedule recurring
+    edit "always"
+        set day sunday monday tuesday wednesday thursday friday saturday
+    next
+    edit "none"
+        set day none
+    next
+end
+config firewall profile-protocol-options
+    edit "default"
+        set comment "All default services."
+            config http
+                set ports 80
+                unset options
+                unset post-lang
+            end
+            config ftp
+                set ports 21
+                set options splice
+            end
+            config imap
+                set ports 143
+                set options fragmail
+            end
+            config mapi
+                set ports 135
+                set options fragmail
+            end
+            config pop3
+                set ports 110
+                set options fragmail
+            end
+            config smtp
+                set ports 25
+                set options fragmail splice
+            end
+            config nntp
+                set ports 119
+                set options splice
+            end
+            config dns
+                set ports 53
+            end
+    next
+end
+config firewall ssl-ssh-profile
+    edit "deep-inspection"
+        set comment "Deep inspection."
+            config https
+                set ports 443
+            end
+            config ftps
+                set ports 990
+            end
+            config imaps
+                set ports 993
+            end
+            config pop3s
+                set ports 995
+            end
+            config smtps
+                set ports 465
+            end
+            config ssl-exempt
+                edit 1
+                    set fortiguard-category 31
+                next
+                edit 2
+                    set fortiguard-category 33
+                next
+                edit 3
+                    set fortiguard-category 87
+                next
+                edit 4
+                    set type address
+                    set address "apple"
+                next
+                edit 5
+                    set type address
+                    set address "appstore"
+                next
+                edit 6
+                    set type address
+                    set address "dropbox.com"
+                next
+                edit 7
+                    set type address
+                    set address "Gotomeeting"
+                next
+                edit 8
+                    set type address
+                    set address "icloud"
+                next
+                edit 9
+                    set type address
+                    set address "itunes"
+                next
+                edit 10
+                    set type address
+                    set address "android"
+                next
+                edit 11
+                    set type address
+                    set address "skype"
+                next
+                edit 12
+                    set type address
+                    set address "swscan.apple.com"
+                next
+                edit 13
+                    set type address
+                    set address "update.microsoft.com"
+                next
+                edit 14
+                    set type address
+                    set address "eease"
+                next
+                edit 15
+                    set type address
+                    set address "google-drive"
+                next
+                edit 16
+                    set type address
+                    set address "google-play"
+                next
+                edit 17
+                    set type address
+                    set address "google-play2"
+                next
+                edit 18
+                    set type address
+                    set address "google-play3"
+                next
+                edit 19
+                    set type address
+                    set address "microsoft"
+                next
+                edit 20
+                    set type address
+                    set address "adobe"
+                next
+                edit 21
+                    set type address
+                    set address "Adobe Login"
+                next
+                edit 22
+                    set type address
+                    set address "fortinet"
+                next
+                edit 23
+                    set type address
+                    set address "googleapis.com"
+                next
+                edit 24
+                    set type address
+                    set address "citrix"
+                next
+                edit 25
+                    set type address
+                    set address "verisign"
+                next
+                edit 26
+                    set type address
+                    set address "Windows update 2"
+                next
+                edit 27
+                    set type address
+                    set address "*.live.com"
+                next
+                edit 28
+                    set type address
+                    set address "auth.gfx.ms"
+                next
+                edit 29
+                    set type address
+                    set address "autoupdate.opera.com"
+                next
+                edit 30
+                    set type address
+                    set address "softwareupdate.vmware.com"
+                next
+                edit 31
+                    set type address
+                    set address "firefox update server"
+                next
+            end
+    next
+    edit "certificate-inspection"
+        set comment "SSL handshake inspection."
+            config https
+                set ports 443
+                set status certificate-inspection
+            end
+            config ftps
+                set ports 990
+                set status disable
+            end
+            config imaps
+                set ports 993
+                set status disable
+            end
+            config pop3s
+                set ports 995
+                set status disable
+            end
+            config smtps
+                set ports 465
+                set status disable
+            end
+    next
+end
+config firewall identity-based-route
+end
+config firewall policy
+end
+config firewall local-in-policy
+end
+config firewall policy6
+end
+config firewall local-in-policy6
+end
+config firewall ttl-policy
+end
+config firewall policy64
+end
+config firewall policy46
+end
+config firewall explicit-proxy-policy
+end
+config firewall interface-policy
+end
+config firewall interface-policy6
+end
+config firewall DoS-policy
+end
+config firewall DoS-policy6
+end
+config firewall sniffer
+end
+config endpoint-control profile
+    edit "default"
+            config forticlient-winmac-settings
+                set forticlient-wf-profile "default"
+            end
+            config forticlient-android-settings
+            end
+            config forticlient-ios-settings
+            end
+    next
+end
+config wireless-controller wids-profile
+    edit "default"
+        set comment "Default WIDS profile."
+        set ap-scan enable
+        set wireless-bridge enable
+        set deauth-broadcast enable
+        set null-ssid-probe-resp enable
+        set long-duration-attack enable
+        set invalid-mac-oui enable
+        set weak-wep-iv enable
+        set auth-frame-flood enable
+        set assoc-frame-flood enable
+        set spoofed-deauth enable
+        set asleap-attack enable
+        set eapol-start-flood enable
+        set eapol-logoff-flood enable
+        set eapol-succ-flood enable
+        set eapol-fail-flood enable
+        set eapol-pre-succ-flood enable
+        set eapol-pre-fail-flood enable
+    next
+    edit "default-wids-apscan-enabled"
+        set ap-scan enable
+    next
+end
+config wireless-controller wtp-profile
+    edit "11n-only"
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP112B-default"
+            config platform
+                set type 112B
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP220B-default"
+        set ap-country US
+            config radio-1
+                set band 802.11n-5G
+            end
+            config radio-2
+                set band 802.11n
+            end
+    next
+    edit "FAP223B-default"
+            config platform
+                set type 223B
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n-5G
+            end
+            config radio-2
+                set band 802.11n
+            end
+    next
+    edit "FAP210B-default"
+            config platform
+                set type 210B
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP222B-default"
+            config platform
+                set type 222B
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11n-5G
+            end
+    next
+    edit "FAP320B-default"
+            config platform
+                set type 320B
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n-5G
+            end
+            config radio-2
+                set band 802.11n
+            end
+    next
+    edit "FAP11C-default"
+            config platform
+                set type 11C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP14C-default"
+            config platform
+                set type 14C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP28C-default"
+            config platform
+                set type 28C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP320C-default"
+            config platform
+                set type 320C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11ac
+            end
+    next
+    edit "FAP221C-default"
+            config platform
+                set type 221C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11ac
+            end
+    next
+    edit "FAP25D-default"
+            config platform
+                set type 25D
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP222C-default"
+            config platform
+                set type 222C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11ac
+            end
+    next
+    edit "FAP224D-default"
+            config platform
+                set type 224D
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n-5G
+            end
+            config radio-2
+                set band 802.11n
+            end
+    next
+    edit "FK214B-default"
+            config platform
+                set type 214B
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP21D-default"
+            config platform
+                set type 21D
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP24D-default"
+            config platform
+                set type 24D
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP112D-default"
+            config platform
+                set type 112D
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set mode disabled
+            end
+    next
+    edit "FAP223C-default"
+            config platform
+                set type 223C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11ac
+            end
+    next
+    edit "FAP321C-default"
+            config platform
+                set type 321C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11ac
+            end
+    next
+    edit "FAPC220C-default"
+            config platform
+                set type C220C
+            end
+        set ap-country US
+            config radio-1
+                set band 802.11n
+            end
+            config radio-2
+                set band 802.11ac
+            end
+    next
+end
+config log memory setting
+    set status enable
+end
+config router rip
+        config redistribute "connected"
+        end
+        config redistribute "static"
+        end
+        config redistribute "ospf"
+        end
+        config redistribute "bgp"
+        end
+        config redistribute "isis"
+        end
+end
+config router ripng
+        config redistribute "connected"
+        end
+        config redistribute "static"
+        end
+        config redistribute "ospf"
+        end
+        config redistribute "bgp"
+        end
+        config redistribute "isis"
+        end
+end
+config router ospf
+        config redistribute "connected"
+        end
+        config redistribute "static"
+        end
+        config redistribute "rip"
+        end
+        config redistribute "bgp"
+        end
+        config redistribute "isis"
+        end
+end
+config router ospf6
+        config redistribute "connected"
+        end
+        config redistribute "static"
+        end
+        config redistribute "rip"
+        end
+        config redistribute "bgp"
+        end
+        config redistribute "isis"
+        end
+end
+config router bgp
+        config redistribute "connected"
+        end
+        config redistribute "rip"
+        end
+        config redistribute "ospf"
+        end
+        config redistribute "static"
+        end
+        config redistribute "isis"
+        end
+        config redistribute6 "connected"
+        end
+        config redistribute6 "rip"
+        end
+        config redistribute6 "ospf"
+        end
+        config redistribute6 "static"
+        end
+        config redistribute6 "isis"
+        end
+end
+config router isis
+        config redistribute "connected"
+        end
+        config redistribute "rip"
+        end
+        config redistribute "ospf"
+        end
+        config redistribute "bgp"
+        end
+        config redistribute "static"
+        end
+end
+config router multicast
+end

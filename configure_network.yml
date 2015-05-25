@@ -1,0 +1,29 @@
+---
+- name: Build site configuration
+  hosts: all
+  connection: local
+  gather_facts: no
+  vars:
+
+  pre_tasks:
+    - name: Remove old config
+      file: path=compiled/{{ inventory_hostname }}/ state=absent
+      register: baseconfdir
+      changed_when: False
+      when: commit_changes | match('0')
+      no_log: True
+
+      tags:
+        - base
+
+    - name: Create empty
+      file: path={{baseconfdir.path}} state=directory
+      changed_when: False
+      when: commit_changes | match('0')
+
+      tags:
+        - base
+
+- include : tasks/get_facts.yml
+- include : tasks/def_roles.yml
+- include : tasks/assemble_push_conf.yml

@@ -1,0 +1,7 @@
+---
+- name: "Building IP Fabric"
+  template: src={{os}}/ipfabric.j2 dest=../{{baseconfdir.path}}/ipfabric.out
+  changed_when: False
+  when: commit_changes | match('0')
+  tags:
+    - fabric

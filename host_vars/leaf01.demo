@@ -1,17 +1,24 @@
-os: eos
-
 id: 1
+os: junos
 
-loopback: 10.0.255.101
-
-management_interface: Management1
-management_ip: 192.168.76.152/24
+management_ip: 10.48.71.102/22
 
 interface_maintenance:
     -
 
 vlan_mapping:
-    frontend:
-        - 4
-    backend:
-        - 3
+    public:
+        - 0
+        - 46
+    service:
+        - 47
+
+netserv:
+    public:
+        10.2.1.254:
+            as: 4290029999
+        10.2.1.253:
+            as: 4290029998
+    service:
+        10.3.1.254:
+            as: 4290029999

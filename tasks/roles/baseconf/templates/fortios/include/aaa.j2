@@ -1,0 +1,70 @@
+config system accprofile
+    edit "prof_admin"
+        set mntgrp read-write
+        set admingrp read-write
+        set updategrp read-write
+        set authgrp read-write
+        set sysgrp read-write
+        set netgrp read-write
+        set loggrp read-write
+        set routegrp read-write
+        set fwgrp read-write
+        set vpngrp read-write
+        set utmgrp read-write
+        set wanoptgrp read-write
+        set endpoint-control-grp read-write
+        set wifi read-write
+    next
+end
+
+config system admin
+{% for user in users %}
+    edit "{{ user.name }}"
+        set accprofile "super_admin"
+        set vdom "root"
+        set password ENC {{ user.secret }}
+
+{% if user.ssh_key is defined %}
+        set ssh-public-key1 "{{ user.ssh_key }}"
+{% endif %}
+
+            config dashboard-tabs
+                edit 1
+                    set name "Status"
+                next
+            end
+            config dashboard
+                edit 1
+                    set tab-id 1
+                    set column 1
+                next
+                edit 2
+                    set widget-type licinfo
+                    set tab-id 1
+                    set column 1
+                next
+                edit 3
+                    set widget-type jsconsole
+                    set tab-id 1
+                    set column 1
+                next
+                edit 4
+                    set widget-type sysres
+                    set tab-id 1
+                    set column 2
+                next
+                edit 5
+                    set widget-type gui-features
+                    set tab-id 1
+                    set column 2
+                next
+                edit 6
+                    set widget-type alert
+                    set tab-id 1
+                    set column 2
+                    set top-n 10
+                next
+            end
+    next
+{% endfor %}
+end

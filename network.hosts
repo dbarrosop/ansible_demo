@@ -1,0 +1,17 @@
+[dc1:children]
+dc1.spines
+dc1.leaves
+dc1.net_services
+
+[dc1.spines]
+spine00.demo
+spine01.demo
+
+[dc1.leaves]
+leaf01.demo
+leaf02.demo
+#leaf03.demo
+
+[dc1.net_services]
+fw.demo
+rtr00.demo

@@ -1,0 +1,7 @@
+id: 0
+os: iosxr
+
+management_ip: 10.48.71.106/22
+
+rack_id: 1
+service_id: 2

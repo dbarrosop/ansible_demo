@@ -1,0 +1,34 @@
+config system interface
+    edit "dmz"
+        set vdom "root"
+        set ip {{ management_ip|ipaddr('address') }} {{ management_ip|ipaddr('netmask') }}
+        set allowaccess ping https ssh
+        set type physical
+        set description "TO HP MGMT"
+        set alias "mgmt1"
+        set snmp-index 8
+    next
+end
+config router static
+    edit 1
+        set gateway {{ management_gw }}
+        set device "dmz"
+    next
+end
+
+config system dns
+    set primary {{ primary_dns_server }}
+end
+config system ntp
+    set ntpsync enable
+    set type custom
+    set syncinterval 60
+        config ntpserver
+            edit 1
+                set server {{ primary_ntp_server }}
+            next
+            edit 2
+                set server {{ secondary_ntp_server }}
+            next
+        end
+end

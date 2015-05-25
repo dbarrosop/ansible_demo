@@ -1,0 +1,31 @@
+{% macro configure_interfaces(spine, leaf) %}
+{% set link_id = 0 %}
+interfaces {
+{% for interface in interface_list %}
+{% if interface.startswith('xe') %}
+
+    {{ interface }} {
+        vlan-tagging;
+
+{% for vrf, config in vrfs.iteritems() %}
+
+        unit {{ config.id }} {
+            vlan-id {{ config.id }};
+            family inet {
+                address {{interconnect_range}}.{{ id*spine + link_id*leaf }}.{{ spine*(2*link_id)+leaf*(2*(id-1)+1) }}/31;
+            }
+        }
+{% endfor %}
+    }
+{% set link_id = link_id + 1 %}
+{% endif %}
+{% endfor %}
+}
+{% endmacro %}
+
+{% if inventory_hostname.startswith('spine') %}
+{{ configure_interfaces(1, 0) }}
+{% else %}
+{{ configure_interfaces(0, 1) }}
+{% endif %}
+

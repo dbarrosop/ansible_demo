@@ -6,13 +6,43 @@
 
   roles:
   - baseconf
-  - spine
+  - ipfabric
 
-- name: Configure leafs
+- name: Configure leaves
   hosts: leaf*
   gather_facts: no
   connection: local
 
   roles:
   - baseconf
-  - leaf
+  - ipfabric
+  - access
+
+- name: Configure additional network services in leaves
+  hosts: leaf01.demo
+  gather_facts: no
+  connection: local
+
+  roles:
+  - baseconf
+  - netserv
+
+- name: Configure Firewall
+  hosts: fw*
+  gather_facts: no
+  connection: local
+
+  roles:
+  - baseconf
+  - svcinterconnect
+  - firewall
+
+- name: Configure Edge Routers
+  hosts: rtr*
+  gather_facts: no
+  connection: local
+
+  roles:
+  - baseconf
+  - svcinterconnect
+  - peering

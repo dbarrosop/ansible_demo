@@ -10,6 +10,9 @@
     changed_when: False
     when: commit_changes | match('0')
 
+    tags:
+      - deploy
+
   - name: Push configuration with napalm
     napalm_install_config:
         hostname={{ inventory_hostname }}
@@ -19,3 +22,6 @@
         config_file=../compiled/{{ inventory_hostname }}/running.conf
         commit_changes={{commit_changes}}
         diff_file=../compiled/{{ inventory_hostname }}/diff
+
+    tags:
+      - deploy

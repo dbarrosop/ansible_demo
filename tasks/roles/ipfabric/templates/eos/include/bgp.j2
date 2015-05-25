@@ -1,0 +1,40 @@
+{% macro routing_instances(spine, leaf) %}
+{% for vrf, config in vrfs.iteritems() %}
+
+
+interface Loopback{{ config.id }}
+   vrf forwarding {{ vrf }}
+   ip address {{ config.loopback_range }}.{{ spine*240+id }}/32
+
+ip prefix-list LOOPBACK-{{vrf.upper()}} seq 10 permit {{ config.loopback_range }}.{{ spine*240+id }}/32
+
+route-map EXPORT-CONNECTED-{{vrf.upper()}} permit 10
+   set origin igp
+   match ip address prefix-list LOOPBACK-{{vrf.upper()}}
+route-map EXPORT-CONNECTED-{{vrf.upper()}} deny 100
+{% endfor %}
+
+router bgp 65000
+{% for vrf, config in vrfs.iteritems() %}
+
+{% set link_id = 0 %}
+   vrf {{ vrf }}
+      router-id {{ config.loopback_range }}.{{ spine*240+id }}
+      local-as {{ config.as_range + leaf*id }}
+      redistribute connected route-map EXPORT-CONNECTED-{{vrf.upper()}}
+      maximum-paths 128 ecmp 128
+{% for interface in interface_list %}
+{% if not ( interface.startswith('Management') ) and interface_details[interface]['is_up'] %}
+      neighbor {{interconnect_range}}.{{ id*spine + link_id*leaf }}.{{ spine*(2*link_id+1)+leaf*(2*(id-1)) }} remote-as {{ config.as_range + spine*(link_id+1) }}
+      neighbor {{interconnect_range}}.{{ id*spine + link_id*leaf }}.{{ spine*(2*link_id+1)+leaf*(2*(id-1)) }} maximum-routes 12000
+{% endif %}
+{% set link_id = link_id + 1 %}
+{% endfor %}
+{% endfor %}
+{% endmacro %}
+
+{% if inventory_hostname.startswith('spine') %}
+{{ routing_instances(1, 0) }}
+{% else %}
+{{ routing_instances(0, 1) }}
+{% endif %}

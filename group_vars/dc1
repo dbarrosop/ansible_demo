@@ -1,22 +1,39 @@
-users:
-    - name: admin
-      secret: $1$Od4yU7aX$qt83nSW/F55td0V0CZZeR0
-    - name: dbarroso
-      secret: $1$v.tAqMbh$xIwx2tBF8JKJygdaBMHVY1
-      ssh_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZNdIq1KbGzaaKjQLwVmhYbZZ2lNsVbqJqruEF7DaKfL1+0iMMwR4bx8fyzjweSTWG2k9zx9u9O1q3QAA9lsWkzuBYOch4iZIZauwI8R+GNRM7eUPyzfQ6jOkcdTK+1pRFx5s5QWAQqmsG78c+myWwMTOGpRKe46/ltw19xDIebivHffeeGV31zfSywoEWGvWR6BzkEnW2rBx0xzGIYQR8URRQj6Jjr5Qgjfqk1veay57BDPQ0iiejMxGZ0bw10gkOvAczBNYaLc7aKdmjFTfdp53A1suGmu8ZNyFFRDaQdaGMdpmFm5FDSD7NHNm5Mt2yJG9KG8vUMgDUUBxruTN1 dbarroso@spotify.com
+---
+management_gw: 10.48.68.1
 
-interconnect_range: 192.168
+primary_dns_server: '8.8.8.8'
+
+primary_ntp_server: '81.234.134.160'
+secondary_ntp_server: '130.236.254.17'
+
+interconnect_range: 192.169
                 # IP on each interconnect will be:
                 #    - For spine: {{ interconnect_range}}.{{id_spine}}.{{ (interface_id-1)*2 }}/31
                 #    - For leaf:  {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 + 1 }}/31
 
-as_range: 65000
+#interconnect_range:
+#  0: 192.169.0
+#  1: 192.169.1
 
-leaf_uplinks:
-    - 1
-    - 2
 
-spine_downlinks:
-    - 1
-    - 2
-    - 3
+vrfs:
+  public:
+    id: 2
+    as_range: 4290020000
+    loopback_range: 10.255.254
+    access_range: 10.2
+  service:
+    id: 3
+    as_range: 4290030000
+    loopback_range: 10.255.255
+    access_range: 10.3
+
+vlans:
+    frontend:
+        id: 2
+        network: 10.0
+        # Network on each rack will be 10.0.{{$id_leaf}}.0/24
+    backend:
+        id: 3
+        network: 172.20
+        # Network on each rack will be 172.20.{{$id_leaf}}.0/24

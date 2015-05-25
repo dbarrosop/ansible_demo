@@ -1,5 +1,16 @@
+end
 transceiver qsfp default-mode 4x10G
 
-hostname {{ inventory_hostname }}
+hostname {{ inventory_hostname.split('.')[0] }}
+ip domain-name {{ inventory_hostname.split('.')[1] }}
 
 spanning-tree mode mstp
+
+no ip routing
+
+{% for interface in interface_list %}
+{% if not ( interface.startswith('Management') ) %}
+interface {{ interface }}
+   no switchport
+{% endif %}
+{% endfor %}

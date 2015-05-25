@@ -1,17 +1,14 @@
+id: 3
 os: eos
 
-id: 3
-
-loopback: 10.0.255.103
-
-management_interface: Management1
-management_ip: 192.168.76.154/24
+management_ip: 10.48.71.104/22
 
 interface_maintenance:
     -
 
 vlan_mapping:
-    frontend:
-        - 3
-    backend:
+    public:
         - 4
+    service:
+        - 3
+        - 5

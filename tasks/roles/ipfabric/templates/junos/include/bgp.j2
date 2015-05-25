@@ -1,0 +1,76 @@
+{% macro routing_instances(spine, leaf) %}
+{% for vrf, config in vrfs.iteritems() %}
+{% set link_id = 0 %}
+
+interfaces {
+    lo0 {
+        unit {{ config.id }} {
+            family inet {
+                address {{ config.loopback_range }}.{{ spine*240+id }}/32;
+            }
+        }
+    }
+}
+
+policy-options {
+    prefix-list LOOPBACK-{{vrf.upper()}} {
+        {{ config.loopback_range }}.{{ spine*240+id }}/32;
+    }
+    policy-statement NORMAL-{{vrf.upper()}} {
+        term LOOPBACK {
+            from {
+                prefix-list LOOPBACK-{{vrf.upper()}};
+            }
+            then accept;
+        }
+    }
+}
+
+routing-instances {
+    {{ vrf }} {
+        interface lo0.{{ config.id }};
+        instance-type virtual-router;
+
+        routing-options {
+            router-id {{ config.loopback_range }}.{{ spine*240+id }};
+            autonomous-system {{ config.as_range + leaf*id }};
+        }
+        protocols {
+            bgp {
+                group FABRIC {
+                    export NORMAL-{{vrf.upper()}};
+                    multipath;
+{% for interface in interface_list %}
+{% if interface.startswith('xe') %}
+                    neighbor {{interconnect_range}}.{{ id*spine + link_id*leaf }}.{{ spine*(2*link_id+1)+leaf*(2*(id-1)) }} {
+                        peer-as {{ config.as_range + spine*(link_id+1) }}
+                    }
+{% set link_id = link_id + 1 %}
+{% endif %}
+{% endfor %}
+                }
+            }
+        }
+    }
+}
+{% endfor %}
+{% endmacro %}
+
+routing-options {
+   forwarding-table {
+       export ECMP;
+   }
+}
+policy-options {
+   policy-statement ECMP {
+       then {
+           load-balance per-packet;
+       }
+   }
+}
+
+{% if inventory_hostname.startswith('spine') %}
+{{ routing_instances(1, 0) }}
+{% else %}
+{{ routing_instances(0, 1) }}
+{% endif %}

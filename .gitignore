@@ -56,3 +56,4 @@ target/
 .idea
 
 compiled/*
+.DS_Store

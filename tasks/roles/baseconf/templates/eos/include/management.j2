@@ -1,5 +1,27 @@
-interface {{ management_interface }}
+vrf definition mgmtVRF
+   rd 65000:65000
+
+no ip routing vrf mgmtVRF
+
+interface Management1
+   vrf forwarding mgmtVRF
    ip address {{ management_ip }}
+
+ip route vrf mgmtVRF 0.0.0.0/0 {{ management_gw }}
+
+ip name-server vrf mgmtVRF {{ primary_dns_server }}
+ip domain lookup vrf mgmtVRF source-interface Management1
+
+ntp source vrf mgmtVRF Management1
+ntp server vrf mgmtVRF {{ primary_ntp_server }}
+ntp server vrf mgmtVRF {{ secondary_ntp_server }}
+
+management ssh
+   shutdown
+   vrf mgmtVRF
+      no shutdown
 
 management api http-commands
    no shutdown
+   vrf mgmtVRF
+      no shutdown

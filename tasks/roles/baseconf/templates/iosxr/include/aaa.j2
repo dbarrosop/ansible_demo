@@ -1,0 +1,7 @@
+{% for user in users -%}
+{% if user.name != 'admin' %}
+username {{ user.name }}
+ group root-system
+ secret 5 {{ user.secret }}
+{% endif %}
+{% endfor %}
