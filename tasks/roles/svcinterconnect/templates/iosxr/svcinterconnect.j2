@@ -1,20 +1,20 @@
 interface Lo0
- ipv4 address {{ vrfs.public.loopback_range }}.{{ 250 + service_id }}/32
+ ipv4 address {{ vrfs.frontend.loopback_range }}.{{ 250 + service_id }}/32
 
 interface GigabitEthernet0/0/0/0
- ipv4 address {{ vrfs.public.access_range }}.{{ rack_id }}.{{ 255 - service_id }} 255.255.255.0
+ ipv4 address {{ vrfs.frontend.access_range }}.{{ rack_id }}.{{ 255 - service_id }} 255.255.255.0
 
 route-policy PASS
   pass
 end-policy
 
-router bgp {{ vrfs.public.as_range + 10000 - service_id }}
- bgp router-id {{ vrfs.public.loopback_range }}.{{ 250 + service_id }}
+router bgp {{ vrfs.frontend.as_range + 10000 - service_id }}
+ bgp router-id {{ vrfs.frontend.loopback_range }}.{{ 250 + service_id }}
  address-family ipv4 unicast
-  network {{ vrfs.public.loopback_range }}.{{ 250 + service_id }}/32
+  network {{ vrfs.frontend.loopback_range }}.{{ 250 + service_id }}/32
 
- neighbor {{ vrfs.public.access_range }}.{{ rack_id }}.1
-  remote-as {{ vrfs.public.as_range + rack_id }}
+ neighbor {{ vrfs.frontend.access_range }}.{{ rack_id }}.1
+  remote-as {{ vrfs.frontend.as_range + rack_id }}
   address-family ipv4 unicast
    route-policy PASS in
    route-policy PASS out

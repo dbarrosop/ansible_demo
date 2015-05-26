@@ -1,19 +1,19 @@
 config system interface
     edit "wan1"
-        set ip {{ vrfs.public.access_range }}.{{ rack_id }}.{{ 255 - service_id }} 255.255.255.0
+        set ip {{ vrfs.frontend.access_range }}.{{ rack_id }}.{{ 255 - service_id }} 255.255.255.0
     next
     edit "wan2"
-        set ip {{ vrfs.service.access_range }}.{{ rack_id }}.{{ 255 - service_id }} 255.255.255.0
+        set ip {{ vrfs.backend.access_range }}.{{ rack_id }}.{{ 255 - service_id }} 255.255.255.0
     next
 end
 config router bgp
-    set as {{ vrfs.public.as_range + 10000 - service_id }}
+    set as {{ vrfs.frontend.as_range + 10000 - service_id }}
         config neighbor
-            edit "{{ vrfs.public.access_range }}.{{ rack_id }}.1"
-                set remote-as {{ vrfs.public.as_range + rack_id }}
+            edit "{{ vrfs.frontend.access_range }}.{{ rack_id }}.1"
+                set remote-as {{ vrfs.frontend.as_range + rack_id }}
             next
-            edit "{{ vrfs.service.access_range }}.{{ rack_id }}.1"
-                set remote-as {{ vrfs.service.as_range + rack_id }}
+            edit "{{ vrfs.backend.access_range }}.{{ rack_id }}.1"
+                set remote-as {{ vrfs.backend.as_range + rack_id }}
             next
         end
 end

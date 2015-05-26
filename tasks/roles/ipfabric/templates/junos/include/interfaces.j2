@@ -12,7 +12,7 @@ interfaces {
         unit {{ config.id }} {
             vlan-id {{ config.id }};
             family inet {
-                address {{interconnect_range}}.{{ id*spine + link_id*leaf }}.{{ spine*(2*link_id)+leaf*(2*(id-1)+1) }}/31;
+                address {{interconnect_range[id*spine+leaf*link_id]}}.{{ spine*(2*link_id)+leaf*(2*(id-1)+1) }}/31;
             }
         }
 {% endfor %}

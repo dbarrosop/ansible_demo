@@ -1,6 +1,8 @@
 [frontend]
 fe00.demo
 fe01.demo
+#fe02.demo
 
 [backend]
 be00.demo
+#be01.demo

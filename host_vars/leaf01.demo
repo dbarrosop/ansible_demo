@@ -3,22 +3,19 @@ os: junos
 
 management_ip: 10.48.71.102/22
 
-interface_maintenance:
-    -
-
 vlan_mapping:
-    public:
+    frontend:
         - 0
         - 46
-    service:
+    backend:
         - 47
 
 netserv:
-    public:
+    frontend:
         10.2.1.254:
             as: 4290029999
         10.2.1.253:
             as: 4290029998
-    service:
+    backend:
         10.3.1.254:
             as: 4290029999

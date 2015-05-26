@@ -2,6 +2,7 @@
 - name: "Reading Address Book and Policies"
   address_book:
     host_file={{host_file}}
+    policies="{{policies}}"
   changed_when: False
   when: commit_changes | match('0')
 

@@ -1,6 +1,6 @@
 ---
 - name: "Building configuration from baseconf role"
-  template: src={{os}}/baseconf.j2 dest=../{{baseconfdir.path}}/baseconf.out
+  template: src={{os}}/baseconf.j2 dest=../{{baseconfdir.path}}/00_baseconf.out
   changed_when: False
   when: commit_changes | match('0')
   tags:

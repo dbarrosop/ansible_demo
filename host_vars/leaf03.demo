@@ -3,12 +3,9 @@ os: eos
 
 management_ip: 10.48.71.104/22
 
-interface_maintenance:
-    -
-
 vlan_mapping:
-    public:
-        - 4
-    service:
-        - 3
+    frontend:
+        - 1
+    backend:
+        - 2
         - 5

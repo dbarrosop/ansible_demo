@@ -1,4 +1,9 @@
 end
+
+{% if model == 'DCS-7050TX-64-F' %}
+queue-monitor length update-interval 5000000
+{% endif %}
+
 transceiver qsfp default-mode 4x10G
 
 hostname {{ inventory_hostname.split('.')[0] }}

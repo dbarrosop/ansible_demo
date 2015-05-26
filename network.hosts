@@ -10,7 +10,7 @@ spine01.demo
 [dc1.leaves]
 leaf01.demo
 leaf02.demo
-#leaf03.demo
+leaf03.demo
 
 [dc1.net_services]
 fw.demo

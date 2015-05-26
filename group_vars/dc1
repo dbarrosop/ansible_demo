@@ -6,34 +6,18 @@ primary_dns_server: '8.8.8.8'
 primary_ntp_server: '81.234.134.160'
 secondary_ntp_server: '130.236.254.17'
 
-interconnect_range: 192.169
-                # IP on each interconnect will be:
-                #    - For spine: {{ interconnect_range}}.{{id_spine}}.{{ (interface_id-1)*2 }}/31
-                #    - For leaf:  {{ interconnect_range}}.{{loop.index0}}.{{ (id-1)*2 + 1 }}/31
-
-#interconnect_range:
-#  0: 192.169.0
-#  1: 192.169.1
-
+interconnect_range:
+  0: 192.169.0
+  1: 192.169.1
 
 vrfs:
-  public:
+  frontend:
     id: 2
     as_range: 4290020000
     loopback_range: 10.255.254
     access_range: 10.2
-  service:
+  backend:
     id: 3
     as_range: 4290030000
     loopback_range: 10.255.255
     access_range: 10.3
-
-vlans:
-    frontend:
-        id: 2
-        network: 10.0
-        # Network on each rack will be 10.0.{{$id_leaf}}.0/24
-    backend:
-        id: 3
-        network: 172.20
-        # Network on each rack will be 172.20.{{$id_leaf}}.0/24

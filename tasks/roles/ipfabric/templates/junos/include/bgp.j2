@@ -13,14 +13,9 @@ interfaces {
 }
 
 policy-options {
-    prefix-list LOOPBACK-{{vrf.upper()}} {
-        {{ config.loopback_range }}.{{ spine*240+id }}/32;
-    }
     policy-statement NORMAL-{{vrf.upper()}} {
         term LOOPBACK {
-            from {
-                prefix-list LOOPBACK-{{vrf.upper()}};
-            }
+            from interface lo0.{{ config.id }};
             then accept;
         }
     }
@@ -42,7 +37,7 @@ routing-instances {
                     multipath;
 {% for interface in interface_list %}
 {% if interface.startswith('xe') %}
-                    neighbor {{interconnect_range}}.{{ id*spine + link_id*leaf }}.{{ spine*(2*link_id+1)+leaf*(2*(id-1)) }} {
+                    neighbor {{interconnect_range[id*spine+leaf*link_id]}}.{{ spine*(2*link_id+1)+leaf*(2*(id-1)) }} {
                         peer-as {{ config.as_range + spine*(link_id+1) }}
                     }
 {% set link_id = link_id + 1 %}

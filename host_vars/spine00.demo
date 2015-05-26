@@ -2,6 +2,3 @@ id: 0
 os: junos
 
 management_ip: 10.48.71.100/22
-
-interface_maintenance:
-    -
