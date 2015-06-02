@@ -1,4 +1,3 @@
-{% macro routing_instances() %}
 {% for vrf, config in vrfs.iteritems() %}
 
 routing-instances {
@@ -13,10 +12,3 @@ routing-instances {
     }
 }
 {% endfor %}
-{% endmacro %}
-
-{% if inventory_hostname.startswith('spine') %}
-{{ routing_instances() }}
-{% else %}
-{{ routing_instances() }}
-{% endif %}

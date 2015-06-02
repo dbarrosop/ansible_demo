@@ -12,11 +12,11 @@ internet_peers:
     172.20.23.4:
       description: Expensive transit provider
       as: 65301
-      policy: primary_transit
+      policy: secondary_transit
     10.4.124.252:
       description: Super expensive transit provider
       as: 65102
-      policy: secondary_transit
+      policy: primary_transit
   peers:
     172.20.255.1:
       description: ACME Corp

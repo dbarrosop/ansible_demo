@@ -5,7 +5,7 @@ management_ip: 10.48.71.104/22
 
 vlan_mapping:
     frontend:
-        - 1
-    backend:
         - 2
+    backend:
+        - 1
         - 5
