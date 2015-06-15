@@ -1,16 +1,12 @@
-# Note
-
-NAPALM is not publicly available yet.
-
 # Usage
 
 To run the playbook without committing changes:
 
-    ansible-playbook -i hosts site.yml -e "commit_changes=0"
+    ansible-playbook -i network.hosts configure_network.yml -e "commit_changes=0"
 
 To run the playbook committing the changes:
 
-    ansible-playbook -i hosts site.yml -e "commit_changes=1"
+    ansible-playbook -i network.hosts configure_network.yml -e "commit_changes=1"
     
 # Disclaimer
 
