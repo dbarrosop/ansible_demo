@@ -17,6 +17,7 @@ route-map EXPORT-CONNECTED-{{vrf.upper()}} permit 20
     {% for interface in mapping %}
 
 interface Ethernet{{ interface }}
+    switchport
     switchport access vlan {{ vrfs[vlan].id }}
 
     {% endfor %}
