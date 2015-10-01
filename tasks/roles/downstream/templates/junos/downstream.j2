@@ -2,7 +2,7 @@ policy-options {
     policy-statement DEFAULT {
         then accept;
     }
-    policy-statement DEFAULT {
+    policy-statement MAINTENANCE {
         then {
           local-preference 140;
           accept;
