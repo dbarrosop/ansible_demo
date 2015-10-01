@@ -8,7 +8,7 @@ hostname {{ inventory_hostname }}
 
 spanning-tree mode mstp
 
-no ip routing
+ip routing
 
 {% for interface in interface_list %}
 {% if not ( interface.startswith('Management') ) %}

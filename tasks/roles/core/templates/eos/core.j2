@@ -1,10 +1,8 @@
-{% set count = 0 %}
 {% for interface in interface_list %}
 {% if interface.startswith('Ethernet') %}
 interface {{ interface }}
   no switchport
-  ip address {{ core_interconnects[inventory_hostname] }}.{{ count * 2}}/31
-  {% set count = count + 1 %}
+  ip address {{ core_interconnects[inventory_hostname] }}.{{ interface[-1]|int * 2}}/31
 
 {% endif %}
 {% endfor %}

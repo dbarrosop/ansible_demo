@@ -1,9 +1,7 @@
-{% set count = 0 %}
 {% for interface in interface_list %}
 {% if interface.startswith('Gi') %}
 interface {{ interface }}
-  ipv4 address {{ core_interconnects[inventory_hostname] }}.{{ count * 2}}/31
-  {% set count = count + 1 %}
+  ipv4 address {{ core_interconnects[inventory_hostname] }}.{{ interface[-1]|int * 2}}/31
 
 {% endif %}
 {% endfor %}
@@ -13,11 +11,12 @@ route-policy NORMAL_PEER
 end-policy
 
 router bgp {{ asn['core'] }}
+ bgp router-id {{ core_interconnects[inventory_hostname] }}.0
  address-family ipv4 unicast
 
 {% for interface, neighbors in lldp_neighbors.iteritems() %}
 {% for neighbor in neighbors %}
-    neighbor {{ core_interconnects[inventory_hostname] }}.{{ interface.split('/')[-1]|int * 2 + 1 }}
+    neighbor {{ core_interconnects[inventory_hostname] }}.{{ interface[-1]|int * 2 + 1 }}
       description {{ neighbor['hostname'] }}
           remote-as {{ asn[neighbor['hostname'].split('.')[1]]}}
           address-family ipv4 unicast

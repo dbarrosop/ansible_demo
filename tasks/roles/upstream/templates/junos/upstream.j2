@@ -4,19 +4,18 @@ routing-options {
 
 {% for interface, neighbors in lldp_neighbors.iteritems() %}
 {% for neighbor in neighbors %}
-{% if asn[neighbor['hostname'].startswith('p-') and interface != 'ge-0/0/0.0' %}
+{% if neighbor['hostname'].startswith('p-') and interface != 'ge-0/0/0.0' %}
 interfaces {
      {{ interface }} {
-        unit 0
             family inet {
-                address {{ core_interconnects[neighbor['hostname']] }}.{{ neighbor['hostname']|int * 2 + 1 }}/31;
+                address {{ core_interconnects[neighbor['hostname']] }}.{{ neighbor['port'][-1]|int * 2 + 1 }}/31;
             }
         }
 }
 protocols {
     bgp {
         group UPSTREAM {
-            neighbor {{ core_interconnects[neighbor['hostname']] }}.{{ neighbor['hostname']|int * 2 }} {
+            neighbor {{ core_interconnects[neighbor['hostname']] }}.{{ neighbor['port'][-1]|int * 2 }} {
                 peer-as {{ asn['core'] }}
             }
         }
