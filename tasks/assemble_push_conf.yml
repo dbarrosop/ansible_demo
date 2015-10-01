@@ -16,9 +16,9 @@
   - name: Push configuration with napalm
     napalm_install_config:
         hostname={{ inventory_hostname }}
-        username=dbarroso
+        username=demo
         dev_os={{os}}
-        password=p4ssw0rd
+        password=Lab123
         config_file=../compiled/{{ inventory_hostname }}/running.conf
         commit_changes={{commit_changes}}
         diff_file=../compiled/{{ inventory_hostname }}/diff

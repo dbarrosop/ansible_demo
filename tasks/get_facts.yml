@@ -8,9 +8,9 @@
     - name: napalm_get_facts
       napalm_get_facts:
         hostname={{ inventory_hostname }}
-        username=dbarroso
+        username=demo
         dev_os={{os}}
-        password=p4ssw0rd
+        password=Lab123
       when: commit_changes | match('0')
 
       tags:

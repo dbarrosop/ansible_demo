@@ -1,48 +1,16 @@
 ---
-- name: Configure spines
-  hosts: spine*
+- name: Configure P routers
+  hosts: p-*
   gather_facts: no
   connection: local
 
   roles:
   - baseconf
-  - ipfabric
 
-- name: Configure leaves
-  hosts: leaf*
+- name: Configure PE routers
+  hosts: pe-*
   gather_facts: no
   connection: local
 
   roles:
   - baseconf
-  - ipfabric
-  - access
-
-- name: Configure additional network services in leaves
-  hosts: leaf01.demo
-  gather_facts: no
-  connection: local
-
-  roles:
-  - baseconf
-  - netserv
-
-- name: Configure Firewall
-  hosts: fw*
-  gather_facts: no
-  connection: local
-
-  roles:
-  - baseconf
-  - svcinterconnect
-  - firewall
-
-- name: Configure Edge Routers
-  hosts: rtr*
-  gather_facts: no
-  connection: local
-
-  roles:
-  - baseconf
-  - svcinterconnect
-  - peering
