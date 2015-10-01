@@ -1,0 +1,11 @@
+---
+users:
+    - name: admin
+      secret: $1$Od4yU7aX$qt83nSW/F55td0V0CZZeR0
+    - name: demo
+      secret: $1$icwt$tzYoCp7oXNgc4toOocDNH.
+
+primary_dns_server: '8.8.8.8'
+
+primary_ntp_server: '81.234.134.160'
+secondary_ntp_server: '130.236.254.17'

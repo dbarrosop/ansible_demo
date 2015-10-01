@@ -1,9 +1,0 @@
-id: 0
-os: fortios
-
-management_ip: 10.48.71.105/22
-
-rack_id: 1
-service_id: 1
-
-host_file: 'servers.hosts'

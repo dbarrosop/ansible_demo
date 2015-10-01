@@ -1,9 +1,0 @@
-{% for vrf, config in vrfs.iteritems() %}
-
-
-vrf definition {{ vrf }}
-   rd 65000:{{config.id}}
-
-ip routing vrf {{ vrf }}
-
-{% endfor %}

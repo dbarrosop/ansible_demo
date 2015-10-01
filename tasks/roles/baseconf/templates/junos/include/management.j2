@@ -23,15 +23,10 @@ system {
     }
 }
 interfaces {
-     me0 {
+     ge-0/0/0 {
         unit 0
             family inet {
                 address {{ management_ip }};
             }
         }
-}
-routing-options {
-    static {
-        route 0.0.0.0/0 next-hop {{ management_gw }};
-    }
 }

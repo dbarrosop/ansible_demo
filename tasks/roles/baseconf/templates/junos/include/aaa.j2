@@ -10,11 +10,6 @@ system {
             class super-user;
             authentication {
                 encrypted-password "{{ user.secret }}"; ## SECRET-DATA
-
-{% if user.ssh_key is defined %}
-
-                ssh-rsa "{{ user.ssh_key }}"; ## SECRET-DATA
-{% endif %}
             }
         }
 {% endfor %}

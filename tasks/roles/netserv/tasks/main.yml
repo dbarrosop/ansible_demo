@@ -1,7 +1,0 @@
----
-- name: "Building access configuration"
-  template: src={{os}}/netserv.j2 dest=../{{baseconfdir.path}}/netserv.out
-  changed_when: False
-  when: commit_changes | match('0')
-  tags:
-    - netserv

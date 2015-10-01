@@ -1,0 +1,3 @@
+os: iosxr
+
+management_ip: 192.168.0.4/24

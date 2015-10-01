@@ -57,3 +57,5 @@ target/
 
 compiled/*
 .DS_Store
+
+env

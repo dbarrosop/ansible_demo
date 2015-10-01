@@ -1,5 +1,0 @@
----
-- name: "Building IP Fabric"
-  template: src={{os}}/peering.j2 dest=../{{baseconfdir.path}}/peering.out
-  changed_when: False
-  when: commit_changes | match('0')

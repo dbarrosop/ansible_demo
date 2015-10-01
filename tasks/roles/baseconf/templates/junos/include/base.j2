@@ -5,11 +5,7 @@ system {
     domain-name {{ inventory_hostname.split('.')[1] }}
 }
 protocols {
-    mstp {
-        configuration-name MSTP;
-    }
     lldp {
-        port-id-subtype interface-name;
         interface all;
     }
 }

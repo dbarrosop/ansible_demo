@@ -7,8 +7,6 @@ interface Management1
    vrf forwarding mgmtVRF
    ip address {{ management_ip }}
 
-ip route vrf mgmtVRF 0.0.0.0/0 {{ management_gw }}
-
 ip name-server vrf mgmtVRF {{ primary_dns_server }}
 ip domain lookup vrf mgmtVRF source-interface Management1
 

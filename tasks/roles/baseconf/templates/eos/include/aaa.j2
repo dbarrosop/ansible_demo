@@ -3,9 +3,4 @@ no aaa root
 
 {% for user in users -%}
 username {{ user.name }} privilege 15 role network-admin secret 5 {{ user.secret }}
-{% if user.ssh_key is defined %}
-username {{ user.name }} sshkey {{ user.ssh_key }}
-{% endif %}
 {% endfor %}
-
-
