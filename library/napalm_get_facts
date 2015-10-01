@@ -55,6 +55,7 @@ def main():
 
     facts = device.get_facts()
     facts['interface_details'] = device.get_interfaces()
+    facts['lldp_neighbors'] = device.get_lldp_neighbors()
 
     device.close()
 
