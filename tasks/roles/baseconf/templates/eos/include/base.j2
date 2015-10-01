@@ -4,8 +4,7 @@ queue-monitor length update-interval 5000000
 
 transceiver qsfp default-mode 4x10G
 
-hostname {{ inventory_hostname.split('.')[0] }}
-ip domain-name {{ inventory_hostname.split('.')[1] }}
+hostname {{ inventory_hostname }}
 
 spanning-tree mode mstp
 

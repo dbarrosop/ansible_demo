@@ -1,7 +1,5 @@
 ---
 users:
-    - name: admin
-      secret: $1$Od4yU7aX$qt83nSW/F55td0V0CZZeR0
     - name: demo
       secret: $1$icwt$tzYoCp7oXNgc4toOocDNH.
 

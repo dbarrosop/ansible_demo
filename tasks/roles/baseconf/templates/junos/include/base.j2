@@ -1,11 +1,32 @@
 version {{ os_version }};
 
 system {
-    host-name {{ inventory_hostname.split('.')[0] }};
-    domain-name {{ inventory_hostname.split('.')[1] }}
+    host-name {{ inventory_hostname }};
 }
 protocols {
     lldp {
         interface all;
     }
+}
+security {
+    forwarding-options {
+        family {
+            inet6 {
+                mode packet-based;
+            }
+            mpls {
+                mode packet-based;
+            }
+        }
+    }
+}
+
+interfaces {
+{% for interface in interface_list %}
+{% if 'ge' in interface %}
+     {{ interface }} {
+        unit 0;
+     }
+{% endif %}
+{% endfor %}
 }
