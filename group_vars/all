@@ -11,3 +11,9 @@ secondary_ntp_server: '130.236.254.17'
 core_interconnects:
   p-000.lon: 10.255.0
   p-000.sto: 10.255.1
+
+asn:
+  core: 65000
+  sto: 65100
+  lon: 65101
+

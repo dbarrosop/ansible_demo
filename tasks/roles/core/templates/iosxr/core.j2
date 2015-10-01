@@ -1,6 +1,28 @@
+{% set count = 0 %}
 {% for interface in interface_list %}
-{% if 'Giga' in interface %}
+{% if interface.startswith('Gi') %}
 interface {{ interface }}
-  ipv4 address {{ core_interconnects[inventory_hostname] }}.{{ loop.index0 * 2}}/31
+  ipv4 address {{ core_interconnects[inventory_hostname] }}.{{ count * 2}}/31
+  {% set count = count + 1 %}
+
 {% endif %}
+{% endfor %}
+
+route-policy NORMAL_PEER
+  pass
+end-policy
+
+router bgp {{ asn['core'] }}
+ address-family ipv4 unicast
+
+{% for interface, neighbors in lldp_neighbors.iteritems() %}
+{% for neighbor in neighbors %}
+    neighbor {{ core_interconnects[inventory_hostname] }}.{{ interface.split('/')[-1]|int * 2 + 1 }}
+      description {{ neighbor['hostname'] }}
+          remote-as {{ asn[neighbor['hostname'].split('.')[1]]}}
+          address-family ipv4 unicast
+           route-policy NORMAL_PEER in
+           route-policy NORMAL_PEER out
+
+{% endfor %}
 {% endfor %}

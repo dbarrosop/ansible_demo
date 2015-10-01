@@ -1,6 +1,21 @@
+{% set count = 0 %}
 {% for interface in interface_list %}
-{% if 'Ethernet' in interface %}
+{% if interface.startswith('Ethernet') %}
 interface {{ interface }}
-  ip address {{ core_interconnects[inventory_hostname] }}.{{ loop.index0 * 2}}/31
+  no switchport
+  ip address {{ core_interconnects[inventory_hostname] }}.{{ count * 2}}/31
+  {% set count = count + 1 %}
+
 {% endif %}
+{% endfor %}
+
+router bgp {{ asn['core'] }}
+
+{% for interface, neighbors in lldp_neighbors.iteritems() %}
+{% set n = interface[-1]|int * 2 + 1 %}
+{% for neighbor in neighbors %}
+    neighbor {{ core_interconnects[inventory_hostname] }}.{{ n }} remote-as {{ asn[neighbor['hostname'].split('.')[1]]}}
+    neighbor {{ core_interconnects[inventory_hostname] }}.{{ n }} description {{ neighbor['hostname'] }}
+
+{% endfor %}
 {% endfor %}

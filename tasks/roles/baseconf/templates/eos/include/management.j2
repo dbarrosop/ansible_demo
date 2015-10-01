@@ -4,6 +4,8 @@ vrf definition mgmtVRF
 no ip routing vrf mgmtVRF
 
 interface Management1
+   no lldp receive
+   no lldp transmit
    vrf forwarding mgmtVRF
    ip address {{ management_ip }}
 
