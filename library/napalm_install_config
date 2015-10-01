@@ -140,6 +140,9 @@ def main():
     else:
         if changed:
             device.commit_config()
+        else:
+            device.discard_config()
+
         module.exit_json(changed=changed, msg='lines changed: %s' % len(diff.splitlines()))
 
     logger.info('DEVICE=%s CHANGED=%s STATUS=%s' % (hostname, changed, 'OK'))
