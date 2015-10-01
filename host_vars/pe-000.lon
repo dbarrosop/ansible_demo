@@ -1,3 +1,13 @@
 os: junos
 
 management_ip: 192.168.0.3/24
+
+downstream_network_range: 172.20.0
+
+downstream:
+  - name: customer_1
+    port: 5
+    asn: 65300
+  - name: customer_2
+    port: 6
+    asn: 65310

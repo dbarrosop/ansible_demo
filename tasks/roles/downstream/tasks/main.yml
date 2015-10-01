@@ -1,0 +1,5 @@
+---
+- name: "Building configuration DOWNSTREAM"
+  template: src={{os}}/downstream.j2 dest=../{{baseconfdir.path}}/02_downstream.out
+  changed_when: False
+  when: commit_changes | match('0')

@@ -16,3 +16,4 @@
   roles:
   - baseconf
   - upstream
+  - downstream
