@@ -1,0 +1,6 @@
+{% for interface in interface_list %}
+{% if 'Giga' in interface %}
+interface {{ interface }}
+  ipv4 address {{ core_interconnects[inventory_hostname] }}.{{ loop.index0 * 2}}/31
+{% endif %}
+{% endfor %}

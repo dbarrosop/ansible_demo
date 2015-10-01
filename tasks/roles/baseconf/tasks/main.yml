@@ -3,6 +3,3 @@
   template: src={{os}}/baseconf.j2 dest=../{{baseconfdir.path}}/00_baseconf.out
   changed_when: False
   when: commit_changes | match('0')
-  tags:
-    - fabric
-

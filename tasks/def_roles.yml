@@ -6,7 +6,8 @@
 
   roles:
   - baseconf
-
+  - core
+  
 - name: Configure PE routers
   hosts: pe-*
   gather_facts: no
