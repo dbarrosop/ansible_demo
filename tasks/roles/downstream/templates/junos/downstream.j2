@@ -1,15 +1,15 @@
 {% for neighbor in downstream %}
 interfaces {
-     ge-0/0/{{ neighbor['port'] }} {
+     ge-0/0/{{ neighbor['port'] }}.0 {
             family inet {
-                address {{ downstream_network_range }}.{{ neighbor['port'][-1]|int * 2 }}/31;
+                address {{ downstream_network_range }}.{{ neighbor['port'] * 2 }}/31;
             }
         }
 }
 protocols {
     bgp {
         group DOWNSTREAM {
-            neighbor {{ downstream_network_range }}.{{ neighbor['port'][-1]|int * 2 + 1 }} {
+            neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} {
                 peer-as {{ neighbor['asn'] }}
             }
         }
