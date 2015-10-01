@@ -8,6 +8,8 @@ downstream:
   - name: customer_1
     port: 5
     asn: 65300
+    policy: DEFAULT
   - name: customer_2
     port: 6
     asn: 65310
+    policy: MAINTENANCE
