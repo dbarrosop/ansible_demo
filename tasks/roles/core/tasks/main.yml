@@ -3,3 +3,5 @@
   template: src={{os}}/core.j2 dest=../{{baseconfdir.path}}/01_core.out
   changed_when: False
   when: commit_changes | match('0')
+  tags:
+     - first
