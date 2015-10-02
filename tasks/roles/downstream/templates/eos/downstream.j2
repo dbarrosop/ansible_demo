@@ -1,12 +1,12 @@
 
 {% for neighbor in downstream %}
-interfaces Ethernet{{ neighbor['port'] }}
+interface Ethernet{{ neighbor['port'] }}
   no switchport
   ip address {{ downstream_network_range }}.{{ neighbor['port'] * 2 }}/31
 
-  router bgp {{ asn['core'] }}
-    neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} remote-as {{ neighbor['asn'] }}
-    neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} route-map {{ neighbor['policy'] }} out
-    neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} route-map {{ neighbor['policy'] }} in
-    neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} description {{ neighbor['name'] }}
+router bgp {{ asn[inventory_hostname.split('.')[1]] }}
+  neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} remote-as {{ neighbor['asn'] }}
+  neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} route-map {{ neighbor['policy'] }} out
+  neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} route-map {{ neighbor['policy'] }} in
+  neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} description {{ neighbor['name'] }}
 {% endfor %}

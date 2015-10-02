@@ -6,10 +6,10 @@ downstream_network_range: 172.20.0
 
 downstream:
   - name: customer_1
-    port: 5
+    port: 4
     asn: 65300
     policy: DEFAULT
   - name: customer_2
-    port: 6
+    port: 5
     asn: 65310
     policy: MAINTENANCE
