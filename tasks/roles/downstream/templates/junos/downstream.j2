@@ -24,6 +24,7 @@ protocols {
         group DOWNSTREAM {
             neighbor {{ downstream_network_range }}.{{ neighbor['port'] * 2 + 1 }} {
                 export {{ neighbor['policy'] }}
+                import {{ neighbor['policy'] }}                
                 peer-as {{ neighbor['asn'] }}
             }
         }

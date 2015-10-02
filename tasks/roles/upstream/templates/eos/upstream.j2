@@ -1,0 +1,14 @@
+{% for interface, neighbors in lldp_neighbors.iteritems() %}
+{% for neighbor in neighbors %}
+{% if neighbor['hostname'].startswith('p-') and interface != 'ge-0/0/0.0' %}
+interfaces {{ interface }}
+  no switchport
+  ip address {{ core_interconnects[neighbor['hostname']] }}.{{ neighbor['port'][-1]|int * 2 + 1 }}/31;
+
+router bgp {{ asn[inventory_hostname.split('.')[1]] }}
+  neighbor {{ core_interconnects[neighbor['hostname']] }}.{{ neighbor['port'][-1]|int * 2 }} remote-as {{ asn['core'] }}
+  neighbor {{ core_interconnects[inventory_hostname] }}.{{ n }} description {{ neighbor['hostname'] }}
+
+{% endif %}
+{% endfor %}
+{% endfor %}
