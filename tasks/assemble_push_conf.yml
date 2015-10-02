@@ -6,12 +6,12 @@
 
   tasks:
   - name: Assemble configuration
-    assemble: src=../compiled/{{ inventory_hostname }}/ dest=../compiled/{{ inventory_hostname }}/running.conf
+    assemble: src=../compiled/{{ inventory_hostname }}/ dest=../compiled/{{ inventory_hostname }}/running.conf
     changed_when: False
     when: commit_changes | match('0')
 
     tags:
-      - deploy
+      - base
 
   - name: Push configuration with napalm
     napalm_install_config:
@@ -19,9 +19,9 @@
         username=demo
         dev_os={{os}}
         password=Lab123
-        config_file=../compiled/{{ inventory_hostname }}/running.conf
+        config_file=../compiled/{{ inventory_hostname }}/running.conf
         commit_changes={{commit_changes}}
-        diff_file=../compiled/{{ inventory_hostname }}/diff
+        diff_file=../compiled/{{ inventory_hostname }}/diff
 
     tags:
-      - deploy
+      - base

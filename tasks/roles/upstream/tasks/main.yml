@@ -4,4 +4,4 @@
   changed_when: False
   when: commit_changes | match('0')
   tags:
-     - first
+     - base
